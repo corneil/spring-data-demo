@@ -1,5 +1,8 @@
 spring-data-demo
 ================
+
+[![Build Status](https://travis-ci.org/corneil/spring-data-demo.png?branch=master)](https://travis-ci.org/corneil/spring-data-demo)
+
 The project includes metadata for SpringSource Tool Suite.
 
 Before running the demo:
