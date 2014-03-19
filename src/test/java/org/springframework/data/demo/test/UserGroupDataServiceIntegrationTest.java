@@ -1,13 +1,5 @@
 package org.springframework.data.demo.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +13,14 @@ import org.springframework.data.demo.service.UserGroupDataService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestConfiguration.class })
@@ -33,8 +33,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class UserGroupDataServiceIntegrationTest {
 	public UserGroupDataServiceIntegrationTest() throws ParseException {
 		super();
-		dob = makeDate("1965-10-10");
-	}
+        dob = makeDate("1977-7-7");
+    }
 
 	@Autowired
 	protected UserGroupDataService dataService;
@@ -52,7 +52,9 @@ public class UserGroupDataServiceIntegrationTest {
 
 	@Test
 	public void testCreateUsersAndGroups() throws ParseException {
-		assertNotNull(dataService);
+        long startTime = System.currentTimeMillis();
+
+        assertNotNull(dataService);
 		// Create Users
 		if (dataService.findUser("corneil") == null) {
 			UserInfo user = new UserInfo("corneil", "Corneil du Plessis");
@@ -113,5 +115,9 @@ public class UserGroupDataServiceIntegrationTest {
 		assertEquals(1, usersG2.size());
 		usersG2 = dataService.listAllUsersInGroup("groupTwo");
 		assertEquals(2, usersG2.size());
-	}
+
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
+    }
 }

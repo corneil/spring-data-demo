@@ -1,6 +1,9 @@
 package org.springframework.data.demo.data;
 
-import java.util.Date;
+import com.mysema.query.annotations.QueryEntity;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,16 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.mysema.query.annotations.QueryEntity;
+import java.util.Date;
 
 @Entity
 @QueryEntity
@@ -42,10 +37,8 @@ public class UserInfo {
 	@Indexed(unique = true)
 	private String userId;
 
-	@Version
-	private Integer version;
 
-	public UserInfo() {
+    public UserInfo() {
 		super();
 	}
 
@@ -75,10 +68,6 @@ public class UserInfo {
 		return this.userId;
 	}
 
-	public Integer getVersion() {
-		return this.version;
-	}
-
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
@@ -99,11 +88,15 @@ public class UserInfo {
 		this.userId = userId;
 	}
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UserInfo{");
+        sb.append("dateOfBirth=").append(dateOfBirth);
+        sb.append(", emailAddress='").append(emailAddress).append('\'');
+        sb.append(", fullName='").append(fullName).append('\'');
+        sb.append(", id='").append(id).append('\'');
+        sb.append(", userId='").append(userId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

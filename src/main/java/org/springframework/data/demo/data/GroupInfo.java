@@ -1,18 +1,15 @@
 package org.springframework.data.demo.data;
 
+import com.mysema.query.annotations.QueryEntity;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.mongodb.core.index.Indexed;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.mongodb.core.index.Indexed;
-
-import com.mysema.query.annotations.QueryEntity;
 
 @Entity
 @QueryEntity
@@ -66,7 +63,13 @@ public class GroupInfo {
 		this.id = id;
 	}
 
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("GroupInfo{");
+        sb.append("groupName='").append(groupName).append('\'');
+        sb.append(", groupOwner=").append(groupOwner);
+        sb.append(", id='").append(id).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
