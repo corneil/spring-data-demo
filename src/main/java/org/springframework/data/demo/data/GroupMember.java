@@ -2,7 +2,6 @@ package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +11,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @QueryEntity
-@Document
 public class GroupMember {
     @NotNull
     private Boolean enabled;
