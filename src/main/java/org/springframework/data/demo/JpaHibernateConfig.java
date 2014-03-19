@@ -1,8 +1,5 @@
 package org.springframework.data.demo;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +17,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 @Profile("jpa-hibernate")
 @Configuration
@@ -39,7 +39,10 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
 	@Value("${database.password}")
 	protected String password;
 
-	@Bean
+    @Value("${database.type}")
+    protected String databaseType;
+
+    @Bean
 	public DataSource dataSource() {
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(driverClassName);
@@ -65,10 +68,22 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
 		lcemfb.setPersistenceUnitName("persistenceUnit");
 		lcemfb.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
 		lcemfb.getJpaPropertyMap().put("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getCanonicalName());
-		lcemfb.getJpaPropertyMap().put("hibernate.dialect", org.hibernate.dialect.MySQL5InnoDBDialect.class.getCanonicalName());
-		lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "create");
-		lcemfb.afterPropertiesSet();
-		return lcemfb.getObject();
+        if ("mysql".equals(databaseType)) {
+            lcemfb.getJpaPropertyMap().put("hibernate.dialect", org.hibernate.dialect.MySQL5InnoDBDialect.class.getCanonicalName());
+        } else if ("h2".equals(databaseType)) {
+            lcemfb.getJpaPropertyMap().put("hibernate.dialect", org.hibernate.dialect.H2Dialect.class.getCanonicalName());
+        } else if ("derby".equals(databaseType)) {
+            lcemfb.getJpaPropertyMap().put("hibernate.dialect", org.hibernate.dialect.DerbyTenSevenDialect.class.getCanonicalName());
+        } else {
+            throw new RuntimeException("database.type must be configured");
+        }
+        lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "update");
+        lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.format", "false");
+        lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.export", "true");
+        lcemfb.getJpaPropertyMap().put("cache.provider_class", "org.hibernate.cache.NoCacheProvider");
+        lcemfb.getJpaPropertyMap().put("show_sql", "true");
+        lcemfb.afterPropertiesSet();
+        return lcemfb.getObject();
 	}
 
 	@Bean(name = "transactionManager")
@@ -82,9 +97,19 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
 	public JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		jpaVendorAdapter.setShowSql(true);
-		jpaVendorAdapter.setDatabase(Database.MYSQL);
-		jpaVendorAdapter.setDatabasePlatform(org.hibernate.dialect.MySQL5InnoDBDialect.class.getCanonicalName());
-		jpaVendorAdapter.setGenerateDdl(false);
+        if ("mysql".equals(databaseType)) {
+            jpaVendorAdapter.setDatabase(Database.MYSQL);
+            jpaVendorAdapter.setDatabasePlatform(org.hibernate.dialect.MySQL5InnoDBDialect.class.getCanonicalName());
+        } else if ("h2".equals(databaseType)) {
+            jpaVendorAdapter.setDatabase(Database.H2);
+            jpaVendorAdapter.setDatabasePlatform(org.hibernate.dialect.H2Dialect.class.getCanonicalName());
+        } else if ("derby".equals(databaseType)) {
+            jpaVendorAdapter.setDatabase(Database.DERBY);
+            jpaVendorAdapter.setDatabasePlatform(org.hibernate.dialect.DerbyTenSevenDialect.class.getCanonicalName());
+        } else {
+            throw new RuntimeException("database.type must be configured");
+        }
+        jpaVendorAdapter.setGenerateDdl(false);
 		return jpaVendorAdapter;
 	}
 
