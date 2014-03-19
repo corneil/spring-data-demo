@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 
 @Profile("jpa-hibernate")
 @Configuration
-@EnableJpaRepositories("org.springframework.data.demo.repository")
+@EnableJpaRepositories("org.springframework.data.demo")
 @PropertySource("classpath:META-INF/spring/database.properties")
 @EnableTransactionManagement()
 public class JpaHibernateConfig implements TransactionManagementConfigurer {
@@ -65,7 +65,8 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
 		lcemfb.setDataSource(dataSource());
 		lcemfb.setJpaDialect(new HibernateJpaDialect());
 		lcemfb.setJpaVendorAdapter(jpaVendorAdapter());
-		lcemfb.setPersistenceUnitName("persistenceUnit");
+        lcemfb.setPackagesToScan("org.springframework.data.demo");
+        lcemfb.setPersistenceUnitName("persistenceUnit");
 		lcemfb.setPersistenceXmlLocation("classpath:META-INF/persistence.xml");
 		lcemfb.getJpaPropertyMap().put("hibernate.ejb.naming_strategy", org.hibernate.cfg.ImprovedNamingStrategy.class.getCanonicalName());
         if ("mysql".equals(databaseType)) {
