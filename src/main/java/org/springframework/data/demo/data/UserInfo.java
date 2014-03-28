@@ -17,76 +17,76 @@ import java.util.Date;
 @Entity
 @QueryEntity
 public class UserInfo {
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(style = "M-")
-	private Date dateOfBirth;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(style = "M-")
+    private Date dateOfBirth;
 
-	private String emailAddress;
+    private String emailAddress;
 
-	@NotNull
-	private String fullName;
+    @NotNull
+    private String fullName;
 
-	// Using a string id for use in both MongoDB and JPA.
-	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String id;
+    // Using a string id for use in both MongoDB and JPA.
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
-	@NotNull
-	@Column(unique = true)
-	@Indexed(unique = true)
-	private String userId;
+    @NotNull
+    @Column(unique = true)
+    @Indexed(unique = true)
+    private String userId;
 
 
     public UserInfo() {
-		super();
-	}
+        super();
+    }
 
-	public UserInfo(String userId, String fullName) {
-		super();
-		this.userId = userId;
-		this.fullName = fullName;
-	}
+    public UserInfo(String userId, String fullName) {
+        super();
+        this.userId = userId;
+        this.fullName = fullName;
+    }
 
-	public Date getDateOfBirth() {
-		return this.dateOfBirth;
-	}
+    public Date getDateOfBirth() {
+        return this.dateOfBirth;
+    }
 
-	public String getEmailAddress() {
-		return this.emailAddress;
-	}
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-	public String getFullName() {
-		return this.fullName;
-	}
+    public String getEmailAddress() {
+        return this.emailAddress;
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
 
-	public String getUserId() {
-		return this.userId;
-	}
+    public String getFullName() {
+        return this.fullName;
+    }
 
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    public String getId() {
+        return this.id;
+    }
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getUserId() {
+        return this.userId;
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {

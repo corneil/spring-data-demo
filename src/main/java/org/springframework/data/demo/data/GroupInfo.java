@@ -14,54 +14,54 @@ import javax.validation.constraints.NotNull;
 @Entity
 @QueryEntity
 public class GroupInfo {
-	@NotNull
-	@Indexed(unique = true)
-	@Column(unique = true)
-	private String groupName;
+    @NotNull
+    @Indexed(unique = true)
+    @Column(unique = true)
+    private String groupName;
 
-	@NotNull
-	@ManyToOne
-	private UserInfo groupOwner;
+    @NotNull
+    @ManyToOne
+    private UserInfo groupOwner;
 
-	// Using a string id for use in both MongoDB and JPA.
-	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String id;
+    // Using a string id for use in both MongoDB and JPA.
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
-	public GroupInfo() {
-		super();
-	}
+    public GroupInfo() {
+        super();
+    }
 
-	public GroupInfo(String groupName, UserInfo groupOwner) {
-		super();
-		this.groupName = groupName;
-		this.groupOwner = groupOwner;
-	}
+    public GroupInfo(String groupName, UserInfo groupOwner) {
+        super();
+        this.groupName = groupName;
+        this.groupOwner = groupOwner;
+    }
 
-	public String getGroupName() {
-		return this.groupName;
-	}
+    public String getGroupName() {
+        return this.groupName;
+    }
 
-	public UserInfo getGroupOwner() {
-		return this.groupOwner;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public String getId() {
-		return this.id;
-	}
+    public UserInfo getGroupOwner() {
+        return this.groupOwner;
+    }
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
+    public void setGroupOwner(UserInfo groupOwner) {
+        this.groupOwner = groupOwner;
+    }
 
-	public void setGroupOwner(UserInfo groupOwner) {
-		this.groupOwner = groupOwner;
-	}
+    public String getId() {
+        return this.id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {

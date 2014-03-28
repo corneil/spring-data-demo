@@ -42,6 +42,8 @@ dependencies {
         exclude(module: 'commons-logging')
     }
 
+    compile 'org.mongodb:mongo-java-driver:2.11.4'
+
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
     compile(group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion) {

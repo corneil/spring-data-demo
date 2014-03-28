@@ -44,28 +44,28 @@ public class GroupMember {
         return this.enabled;
     }
 
-    public String getId() {
-        return this.id;
-    }
-
-    public UserInfo getMember() {
-        return this.member;
-    }
-
-    public GroupInfo getMemberOfgroup() {
-        return this.memberOfgroup;
-    }
-
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public void setId(String id) {
         this.id = id;
     }
 
+    public UserInfo getMember() {
+        return this.member;
+    }
+
     public void setMember(UserInfo groupMember) {
         this.member = groupMember;
+    }
+
+    public GroupInfo getMemberOfgroup() {
+        return this.memberOfgroup;
     }
 
     public void setMemberOfgroup(GroupInfo memberOfgroup) {
