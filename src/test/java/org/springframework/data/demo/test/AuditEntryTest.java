@@ -12,12 +12,15 @@ import org.springframework.data.demo.service.AuditService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * @author Corneil du Plessis
@@ -39,11 +42,34 @@ public class AuditEntryTest {
     @Autowired
     protected AuditService auditService;
 
+    private static Throwable findCause(Throwable x, Class<?> type) {
+        if (x.getClass().isAssignableFrom(type)) {
+            return x;
+        }
+        if (x.getCause() != null) {
+            return findCause(x.getCause(), type);
+        }
+        return null;
+    }
     @Test
     public void testAuditEntry() {
         long startTime = System.currentTimeMillis();
         assertNotNull(auditService);
-        AuditEntry entry = new AuditEntry(new Date(), "User", "create");
+        AuditEntry entry = new AuditEntry(new Date(), "User", null);
+        try {
+            auditService.save(entry);
+            fail("Expected constraint violations");
+        } catch (Exception x) {
+            x.printStackTrace();
+            ConstraintViolationException cv = (ConstraintViolationException) findCause(x, ConstraintViolationException.class);
+            if (cv != null) {
+                for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
+                    System.out.println("Error:" + v.getPropertyPath() + ":" + v.getMessage());
+                }
+                assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
+            }
+        }
+        entry = new AuditEntry(new Date(), "User", "create");
         entry.getAuditInfo().add(new AuditInfo("name", "joe"));
         entry.getAuditInfo().add(new AuditInfo("surname", "soap"));
         auditService.save(entry);

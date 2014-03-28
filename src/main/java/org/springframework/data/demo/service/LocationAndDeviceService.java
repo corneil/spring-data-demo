@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by corneil on 3/28/14.
+ * @author Corneil du Plessis
  */
 public interface LocationAndDeviceService {
     public void deleteAllData();

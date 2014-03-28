@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by corneil on 3/28/14.
@@ -20,6 +21,7 @@ public class AuditInfo {
     private String id;
 
     @Indexed(unique = false)
+    @NotNull
     private String name;
 
     private String beforeValue;

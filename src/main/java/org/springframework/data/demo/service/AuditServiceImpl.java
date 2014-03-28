@@ -4,7 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.repository.AuditEntryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,16 +18,23 @@ import static org.springframework.data.demo.data.QAuditEntry.auditEntry;
  * @author Corneil du Plessis
  */
 @Service
+@Transactional
 public class AuditServiceImpl implements AuditService {
     @Autowired
     protected AuditEntryRepository repository;
 
+    @Autowired
+    protected Validator validator;
+
     @Override
-    public void save(AuditEntry entry) {
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public void save(@Valid AuditEntry entry) {
         repository.save(entry);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AuditEntry> find(String auditType, Date startDate, Date endDate) {
 
         List<AuditEntry> result = new ArrayList<AuditEntry>();

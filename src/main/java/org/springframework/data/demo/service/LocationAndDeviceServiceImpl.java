@@ -9,7 +9,9 @@ import org.springframework.data.demo.data.LocationUpdate;
 import org.springframework.data.demo.repository.DeviceInfoRepository;
 import org.springframework.data.demo.repository.LocationUpdateRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ import static org.springframework.data.demo.data.QLocationUpdate.locationUpdate;
  * @author Corneil du Plessis
  */
 @Service
+@Transactional
 public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     private final static Logger logger = LoggerFactory.getLogger(LocationAndDeviceServiceImpl.class);
 
@@ -30,6 +33,7 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     protected DeviceInfoRepository deviceInfoRepository;
 
     @Override
+    @Transactional
     public void deleteAllData() {
         logger.info("deleteAllData");
         locationUpdateRepository.deleteAll();
@@ -37,21 +41,31 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     }
 
     @Override
-    public void saveDevice(DeviceInfo device) {
+    @Transactional
+    public void saveDevice(@Valid DeviceInfo device) {
         logger.info("saveDevice:" + device);
         deviceInfoRepository.save(device);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public DeviceInfo findDevice(String deviceId) {
         logger.info("findDevice:" + deviceId);
         return deviceInfoRepository.findByDeviceId(deviceId);
     }
 
     @Override
-    public void saveLocation(LocationUpdate locationUpdate) {
+    @Transactional
+    public void saveLocation(@Valid LocationUpdate locationUpdate) {
         logger.info("saveLocation:" + locationUpdate);
         locationUpdateRepository.save(locationUpdate);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate) {
+        return findLocationsFunctions(deviceId, startDate, endDate);
+        // return findLocationsQsl(deviceId, startDate, endDate);
     }
 
     private List<LocationUpdate> findLocationsFunctions(String deviceId, Date startDate, Date endDate) {
@@ -61,12 +75,6 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
             throw new DataRetrievalFailureException("DeviceInfo:" + deviceId);
         }
         return locationUpdateRepository.findByDeviceAndLocTimeBetween(device, startDate, endDate);
-    }
-
-    @Override
-    public List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate) {
-        return findLocationsFunctions(deviceId, startDate, endDate);
-        // return findLocationsQsl(deviceId, startDate, endDate);
     }
 
     private List<LocationUpdate> findLocationsQsl(String deviceId, Date startDate, Date endDate) {

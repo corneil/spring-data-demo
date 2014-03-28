@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -34,9 +35,11 @@ public class LocationUpdate {
     private String locDetail;
 
     @Indexed(unique = false)
+    @NotNull
     private Date locTime;
 
     @DBRef
+    @NotNull
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private DeviceInfo device;
 

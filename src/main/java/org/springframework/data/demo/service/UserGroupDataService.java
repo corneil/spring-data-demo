@@ -1,36 +1,38 @@
 package org.springframework.data.demo.service;
 
-import java.util.List;
-
 import org.springframework.data.demo.data.GroupInfo;
 import org.springframework.data.demo.data.GroupMember;
 import org.springframework.data.demo.data.UserInfo;
 
+import java.util.List;
 
+/**
+ * @author Corneil du Plessis
+ */
 public interface UserGroupDataService {
-	// Added for testing
-	public void deleteAllData();
+    // Added for testing
+    public void deleteAllData();
 
-	public void deleteGroupInfo(GroupInfo groupInfo);
+    public void deleteGroupInfo(GroupInfo groupInfo);
 
-	public void deleteGroupMember(GroupMember groupMember);
+    public void deleteGroupMember(GroupMember groupMember);
 
-	public void deleteUserInfo(UserInfo userInfo);
+    public void deleteUserInfo(UserInfo userInfo);
 
-	public GroupInfo findGroup(String name);
+    public GroupInfo findGroup(String name);
 
-	public UserInfo findUser(String userId);
+    public UserInfo findUser(String userId);
 
-	public List<UserInfo> listActiveUsersInGroup(String groupName);
+    public List<UserInfo> listActiveUsersInGroup(String groupName);
 
-	public List<UserInfo> listAllUsersInGroup(String groupName);
+    public List<UserInfo> listAllUsersInGroup(String groupName);
 
-	public List<GroupInfo> listGroupsForUser(String userId);
+    public List<GroupInfo> listGroupsForUser(String userId);
 
-	public void saveGroupInfo(GroupInfo groupInfo);
+    public void saveGroupInfo(GroupInfo groupInfo);
 
-	public void saveGroupMember(GroupMember groupMember);
+    public void saveGroupMember(GroupMember groupMember);
 
-	public void saveUserInfo(UserInfo userInfo);
-	
+    public void saveUserInfo(UserInfo userInfo);
+
 }
