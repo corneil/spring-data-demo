@@ -105,19 +105,6 @@ public class LocationUpdate {
     }
 
     @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("LocationUpdate{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", latX=").append(latX);
-        sb.append(", latY=").append(latY);
-        sb.append(", locDetail='").append(locDetail).append('\'');
-        sb.append(", locTime=").append(locTime);
-        sb.append(", device=").append(device);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -142,6 +129,19 @@ public class LocationUpdate {
         }
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("LocationUpdate{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", latX=").append(latX);
+        sb.append(", latY=").append(latY);
+        sb.append(", locDetail='").append(locDetail).append('\'');
+        sb.append(", locTime=").append(locTime);
+        sb.append(", device=").append(device);
+        sb.append('}');
+        return sb.toString();
     }
 
 }

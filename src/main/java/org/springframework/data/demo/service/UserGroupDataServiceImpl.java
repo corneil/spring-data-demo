@@ -9,6 +9,7 @@ import org.springframework.data.demo.repository.GroupRepository;
 import org.springframework.data.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static org.springframework.data.demo.data.QGroupMember.groupMember;
 
 @Service
 @Transactional
+@Validated
 public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Autowired
     protected GroupRepository groupRepository;

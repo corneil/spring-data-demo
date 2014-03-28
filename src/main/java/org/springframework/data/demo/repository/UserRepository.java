@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends QueryDslPredicateExecutor<UserInfo>, CrudRepository<UserInfo, String> {
-	public UserInfo findByUserId(String userId);
+    public UserInfo findByUserId(String userId);
 }

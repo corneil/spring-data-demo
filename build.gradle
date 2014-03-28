@@ -51,7 +51,7 @@ dependencies {
         exclude(module: 'jaxb-impl')
     }
 
-    compile group: 'javax.validation', name: 'validation-api', version: '1.0.0.GA'
+    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: slf4JVersion
     compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: slf4JVersion

@@ -66,6 +66,14 @@ public class AuditEntry {
     }
 
     @Override
+    public int hashCode() {
+        int result = auditTime.hashCode();
+        result = 31 * result + auditType.hashCode();
+        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -87,14 +95,6 @@ public class AuditEntry {
         }
 
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = auditTime.hashCode();
-        result = 31 * result + auditType.hashCode();
-        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
-        return result;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.repository.AuditEntryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.Validator;
@@ -19,6 +20,7 @@ import static org.springframework.data.demo.data.QAuditEntry.auditEntry;
  */
 @Service
 @Transactional
+@Validated
 public class AuditServiceImpl implements AuditService {
     @Autowired
     protected AuditEntryRepository repository;

@@ -7,6 +7,6 @@ import org.springframework.data.demo.JpaHibernateConfig;
 import org.springframework.data.demo.MongoConfig;
 
 @Configuration
-@Import({ AppConfig.class, JpaHibernateConfig.class, MongoConfig.class })
+@Import({AppConfig.class, JpaHibernateConfig.class, MongoConfig.class})
 public class TestConfiguration {
 }

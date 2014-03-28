@@ -31,14 +31,6 @@ import static org.junit.Assert.fail;
 // @ActiveProfiles(profiles = "jpa-hibernate")
 // @ActiveProfiles(profiles = "mongo")
 public class AuditEntryTest {
-    @Before
-    public void setup() {
-        System.setProperty("DEBUG.MONGO", "true");
-        System.setProperty("DB.TRACE", "true");
-        java.util.logging.Logger mongoLogger = java.util.logging.Logger.getLogger("com.mongodb");
-        mongoLogger.setLevel(Level.FINEST); // e.g. or Log.WARNING, etc.
-    }
-
     @Autowired
     protected AuditService auditService;
 
@@ -51,6 +43,15 @@ public class AuditEntryTest {
         }
         return null;
     }
+
+    @Before
+    public void setup() {
+        System.setProperty("DEBUG.MONGO", "true");
+        System.setProperty("DB.TRACE", "true");
+        java.util.logging.Logger mongoLogger = java.util.logging.Logger.getLogger("com.mongodb");
+        mongoLogger.setLevel(Level.FINEST); // e.g. or Log.WARNING, etc.
+    }
+
     @Test
     public void testAuditEntry() {
         long startTime = System.currentTimeMillis();
@@ -59,12 +60,13 @@ public class AuditEntryTest {
         try {
             auditService.save(entry);
             fail("Expected constraint violations");
-        } catch (Exception x) {
-            x.printStackTrace();
+        } catch (Throwable x) {
             ConstraintViolationException cv = (ConstraintViolationException) findCause(x, ConstraintViolationException.class);
+            assertNotNull("Expected ConstraintViolationException:" + x, cv);
             if (cv != null) {
                 for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
-                    System.out.println("Error:" + v.getPropertyPath() + ":" + v.getMessage());
+                    System.out.println("Constraint:" + v);
+                    System.out.println("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
                 }
                 assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
             }

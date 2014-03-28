@@ -11,7 +11,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import java.io.IOException;
 
 @Configuration
-@ComponentScan({ "org.springframework.data.demo" })
+@ComponentScan({"org.springframework.data.demo"})
 public class AppConfig {
     @Bean(name = "validator")
     public LocalValidatorFactoryBean validatorFactoryBean() {
@@ -19,14 +19,14 @@ public class AppConfig {
     }
 
     @Bean
-    public static MethodValidationPostProcessor methodValidationPostProcessor() {
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
         return new MethodValidationPostProcessor();
     }
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
-		PropertySourcesPlaceholderConfigurer pc = new PropertySourcesPlaceholderConfigurer();
-		pc.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath:META-INF/spring/*.properties"));
-		return pc;
-	}
+    @Bean
+    public PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
+        PropertySourcesPlaceholderConfigurer pc = new PropertySourcesPlaceholderConfigurer();
+        pc.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath:META-INF/spring/*.properties"));
+        return pc;
+    }
 }

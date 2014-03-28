@@ -10,6 +10,7 @@ import org.springframework.data.demo.repository.DeviceInfoRepository;
 import org.springframework.data.demo.repository.LocationUpdateRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import static org.springframework.data.demo.data.QLocationUpdate.locationUpdate;
  */
 @Service
 @Transactional
+@Validated
 public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     private final static Logger logger = LoggerFactory.getLogger(LocationAndDeviceServiceImpl.class);
 

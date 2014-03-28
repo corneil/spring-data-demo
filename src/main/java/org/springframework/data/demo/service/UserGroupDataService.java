@@ -4,6 +4,7 @@ import org.springframework.data.demo.data.GroupInfo;
 import org.springframework.data.demo.data.GroupMember;
 import org.springframework.data.demo.data.UserInfo;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -29,10 +30,10 @@ public interface UserGroupDataService {
 
     public List<GroupInfo> listGroupsForUser(String userId);
 
-    public void saveGroupInfo(GroupInfo groupInfo);
+    public void saveGroupInfo(@Valid GroupInfo groupInfo);
 
-    public void saveGroupMember(GroupMember groupMember);
+    public void saveGroupMember(@Valid GroupMember groupMember);
 
-    public void saveUserInfo(UserInfo userInfo);
+    public void saveUserInfo(@Valid UserInfo userInfo);
 
 }
