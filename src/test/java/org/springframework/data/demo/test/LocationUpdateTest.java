@@ -35,6 +35,7 @@ public class LocationUpdateTest {
 
     @Test
     public void testLocationUpdates() {
+        long startTime = System.currentTimeMillis();
         Date startDate = new Date();
         Random rand = new Random();
         DeviceInfo device1 = new DeviceInfo();
@@ -61,5 +62,8 @@ public class LocationUpdateTest {
         }
         assertFalse("Expected locations", locations.isEmpty());
         assertEquals(50, locations.size());
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
     }
 }
