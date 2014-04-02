@@ -1,6 +1,10 @@
 package org.springframework.data.demo;
 
 import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +20,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories("org.springframework.data.demo.repository")
 @PropertySource("classpath:META-INF/spring/database.properties")
 public class MongoConfig extends AbstractMongoConfiguration {
-    @Value("${mongo.database}")
+    private final static Logger logger = LoggerFactory.getLogger(MongoConfig.class);
     protected String databaseName;
 
-    @Value("${mongo.host}")
-    protected String host;
-
-    @Value("${mongo.port}")
-    protected String port;
+    @Value("${mongo.url}")
+    protected String url;
 
     @Override
     protected String getDatabaseName() {
@@ -33,7 +34,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
-        return new Mongo(host, Integer.parseInt(port));
+        MongoClientURI uri = new MongoClientURI(url);
+        databaseName = uri.getDatabase();
+        logger.info("Database:" + databaseName);
+        logger.info("MongoURL:" + uri);
+        return new MongoClient(uri);
     }
 
     @Override

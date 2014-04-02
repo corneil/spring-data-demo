@@ -5,9 +5,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.data.demo.data.DeviceInfo;
 import org.springframework.data.demo.data.LocationUpdate;
 import org.springframework.data.demo.service.LocationAndDeviceService;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -17,6 +20,9 @@ import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * @author Corneil du Plessis
@@ -27,6 +33,12 @@ import static org.junit.Assert.assertFalse;
 public class LocationUpdateTest {
     @Autowired
     protected LocationAndDeviceService locationAndDeviceService;
+
+    @Autowired
+    protected Environment environment;
+
+    @Autowired
+    protected ApplicationContext applicationContext;
 
     @Before
     public void setup() {
@@ -65,5 +77,23 @@ public class LocationUpdateTest {
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
         System.out.printf("Test duration:%9.2f\n", duration);
+        if (environment.acceptsProfiles("mongo")) {
+            testFindMongoTemplate(device1, startDate, endDate, locations.size());
+        }
+    }
+
+    private void testFindMongoTemplate(DeviceInfo device, Date startDate, Date endTime, final int expected) {
+        try {
+            MongoTemplate mongoTemplate = applicationContext.getBean(MongoTemplate.class);
+            List<LocationUpdate> locations = mongoTemplate
+                    .find(query(where("device").is(device).andOperator(
+                            where("locTime").gte(startDate),
+                            where("locTime").lte(endTime))), LocationUpdate.class);
+            assertFalse("Expected locations", locations.isEmpty());
+            assertEquals(expected, locations.size());
+        } catch (Throwable x) {
+            x.printStackTrace();
+            fail(x.toString());
+        }
     }
 }
