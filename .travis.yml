@@ -1,7 +1,10 @@
 language: java
 
+# We only need one gradle invocation
+install:
+
 script:
-  - ./gradlew cleanTest check
+  - ./gradlew assemble cleanTest check
 
 # Ensures that gradle does not print intermediate task status.
 env:
