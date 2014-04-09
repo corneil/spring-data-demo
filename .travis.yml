@@ -1,3 +1,3 @@
 language: java
-  before_script: ./gradlew cleanTest
+before_script: ./gradlew cleanTest
 
