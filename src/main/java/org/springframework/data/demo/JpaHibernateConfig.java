@@ -42,6 +42,9 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
     @Value("${database.type}")
     protected String databaseType;
 
+    @Value("${database.showSql}")
+    protected String showSql;
+
     @Bean(name = "transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
@@ -72,7 +75,6 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
         lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.format", "false");
         lcemfb.getJpaPropertyMap().put("hibernate.hbm2ddl.export", "true");
         lcemfb.getJpaPropertyMap().put("cache.provider_class", "org.hibernate.cache.NoCacheProvider");
-        lcemfb.getJpaPropertyMap().put("show_sql", "true");
         lcemfb.afterPropertiesSet();
         return lcemfb.getObject();
     }
@@ -97,7 +99,7 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
     @Bean(name = "jpaVendorAdapter")
     public JpaVendorAdapter jpaVendorAdapter() {
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        jpaVendorAdapter.setShowSql(true);
+        jpaVendorAdapter.setShowSql(Boolean.valueOf(showSql));
         if ("mysql".equals(databaseType)) {
             jpaVendorAdapter.setDatabase(Database.MYSQL);
             jpaVendorAdapter.setDatabasePlatform(org.hibernate.dialect.MySQL5InnoDBDialect.class.getCanonicalName());

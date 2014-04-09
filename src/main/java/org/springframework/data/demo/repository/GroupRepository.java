@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GroupRepository extends QueryDslPredicateExecutor<GroupInfo>, CrudRepository<GroupInfo, String> {
-    public GroupInfo findByGroupName(String name);
+    GroupInfo findByGroupName(String name);
 }
