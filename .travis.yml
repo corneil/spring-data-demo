@@ -1,4 +1,12 @@
 language: java
 before_script:
-  - ./gradlew cleanTest
+  - ./gradlew assemble cleanTest
+
+script:
+  - ./gradlew check
+
+# Ensures that gradle does not print intermediate task status.
+env:
+  global:
+  - TERM=dumb
 
