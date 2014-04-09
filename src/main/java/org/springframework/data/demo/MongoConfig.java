@@ -21,6 +21,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @PropertySource("classpath:META-INF/spring/database.properties")
 public class MongoConfig extends AbstractMongoConfiguration {
     private final static Logger logger = LoggerFactory.getLogger(MongoConfig.class);
+
     protected String databaseName;
 
     @Value("${mongo.url}")
@@ -35,9 +36,9 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Bean
     public Mongo mongo() throws Exception {
         MongoClientURI uri = new MongoClientURI(url);
+        logger.info("MongoURL:" + uri);
         databaseName = uri.getDatabase();
         logger.info("Database:" + databaseName);
-        logger.info("MongoURL:" + uri);
         return new MongoClient(uri);
     }
 

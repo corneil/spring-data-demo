@@ -1,5 +1,7 @@
 package org.springframework.data.demo.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.demo.data.GroupInfo;
 import org.springframework.data.demo.data.GroupMember;
@@ -21,6 +23,7 @@ import static org.springframework.data.demo.data.QGroupMember.groupMember;
 @Transactional
 @Validated
 public class UserGroupDataServiceImpl implements UserGroupDataService {
+    private static Logger logger = LoggerFactory.getLogger(UserGroupDataServiceImpl.class);
     @Autowired
     protected GroupRepository groupRepository;
 
@@ -33,6 +36,7 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional
     public void deleteAllData() {
+        logger.info("deleteAllData");
         memberRepository.deleteAll();
         groupRepository.deleteAll();
         userRepository.deleteAll();
@@ -41,36 +45,42 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional
     public void deleteGroupInfo(GroupInfo groupInfo) {
+        logger.info("deleteGroupInfo:" + groupInfo);
         groupRepository.delete(groupInfo);
     }
 
     @Override
     @Transactional
     public void deleteGroupMember(GroupMember groupMember) {
+        logger.info("deleteGroupMember:" + groupMember);
         memberRepository.delete(groupMember);
     }
 
     @Override
     @Transactional
     public void deleteUserInfo(UserInfo userInfo) {
+        logger.info("deleteUserInfo:" + userInfo);
         userRepository.delete(userInfo);
     }
 
     @Override
     @Transactional(readOnly = true)
     public GroupInfo findGroup(String name) {
+        logger.info("findGroup:" + name);
         return groupRepository.findByGroupName(name);
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserInfo findUser(String userId) {
+        logger.info("findUser:" + userId);
         return userRepository.findByUserId(userId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<UserInfo> listActiveUsersInGroup(String groupName) {
+        logger.info("listActiveUsersInGroup:" + groupName);
         List<UserInfo> userList = new ArrayList<UserInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName).and(groupMember.enabled.eq(Boolean.TRUE)),
                 groupMember.member.userId.desc());
@@ -83,6 +93,7 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional(readOnly = true)
     public List<UserInfo> listAllUsersInGroup(String groupName) {
+        logger.info("listAllUsersInGroup:" + groupName);
         List<UserInfo> users = new ArrayList<UserInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName));
         for (GroupMember member : members) {
@@ -94,6 +105,7 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional(readOnly = true)
     public List<GroupInfo> listGroupsForUser(String userId) {
+        logger.info("listGroupsForUser:" + userId);
         List<GroupInfo> groups = new ArrayList<GroupInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.member.userId.eq(userId).and(groupMember.enabled.eq(Boolean.TRUE)));
         for (GroupMember member : members) {
@@ -105,18 +117,21 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional
     public void saveGroupInfo(@Valid GroupInfo groupInfo) {
+        logger.info("saveGroupInfo:" + groupInfo);
         groupRepository.save(groupInfo);
     }
 
     @Override
     @Transactional
     public void saveGroupMember(@Valid GroupMember groupMember) {
+        logger.info("saveGroupMember:" + groupMember);
         memberRepository.save(groupMember);
     }
 
     @Override
     @Transactional
     public void saveUserInfo(@Valid UserInfo userInfo) {
+        logger.info("saveUserInfo:" + userInfo);
         userRepository.save(userInfo);
     }
 }

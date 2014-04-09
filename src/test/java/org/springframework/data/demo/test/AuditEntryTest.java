@@ -50,6 +50,7 @@ public class AuditEntryTest {
         System.setProperty("DB.TRACE", "true");
         java.util.logging.Logger mongoLogger = java.util.logging.Logger.getLogger("com.mongodb");
         mongoLogger.setLevel(Level.FINEST); // e.g. or Log.WARNING, etc.
+        auditService.deleteAllData();
     }
 
     @Test

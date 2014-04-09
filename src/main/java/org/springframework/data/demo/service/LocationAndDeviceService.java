@@ -11,13 +11,13 @@ import java.util.List;
  * @author Corneil du Plessis
  */
 public interface LocationAndDeviceService {
-    public void deleteAllData();
+    void deleteAllData();
 
-    public void saveDevice(@Valid DeviceInfo device);
+    void saveDevice(@Valid DeviceInfo device);
 
-    public DeviceInfo findDevice(String deviceId);
+    DeviceInfo findDevice(String deviceId);
 
-    public void saveLocation(@Valid LocationUpdate locationUpdate);
+    void saveLocation(@Valid LocationUpdate locationUpdate);
 
-    public List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate);
+    List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate);
 }

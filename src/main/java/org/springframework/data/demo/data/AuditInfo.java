@@ -1,13 +1,14 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 
 /**
  * Created by corneil on 3/28/14.
@@ -16,9 +17,8 @@ import javax.validation.constraints.NotNull;
 @QueryEntity
 public class AuditInfo {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private BigInteger id;
 
     @Indexed(unique = false)
     @NotNull
@@ -39,6 +39,38 @@ public class AuditInfo {
 
     public AuditInfo(String name, String afterValue) {
         this.name = name;
+        this.afterValue = afterValue;
+    }
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBeforeValue() {
+        return beforeValue;
+    }
+
+    public void setBeforeValue(String beforeValue) {
+        this.beforeValue = beforeValue;
+    }
+
+    public String getAfterValue() {
+        return afterValue;
+    }
+
+    public void setAfterValue(String afterValue) {
         this.afterValue = afterValue;
     }
 
