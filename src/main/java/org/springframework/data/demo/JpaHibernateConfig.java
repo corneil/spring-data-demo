@@ -112,7 +112,7 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
         } else {
             throw new RuntimeException("database.type must be configured");
         }
-        jpaVendorAdapter.setGenerateDdl(false);
+        jpaVendorAdapter.setGenerateDdl(true);
         return jpaVendorAdapter;
     }
 

@@ -1,14 +1,14 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
 
 /**
  * Created by corneil on 3/28/14.
@@ -17,8 +17,10 @@ import java.math.BigInteger;
 @QueryEntity
 public class AuditInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigInteger id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(length = 40)
+    private String id;
 
     @Indexed(unique = false)
     @NotNull
@@ -42,11 +44,11 @@ public class AuditInfo {
         this.afterValue = afterValue;
     }
 
-    public BigInteger getId() {
+    public Object getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         this.id = id;
     }
 

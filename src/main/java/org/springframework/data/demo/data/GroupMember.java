@@ -1,14 +1,10 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
 
 @Entity
 @QueryEntity
@@ -18,8 +14,10 @@ public class GroupMember {
 
     // Using a string id for use in both MongoDB and JPA.
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private BigInteger id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(length = 40)
+    private String id;
 
     @NotNull
     @ManyToOne
@@ -48,11 +46,11 @@ public class GroupMember {
         this.enabled = enabled;
     }
 
-    public BigInteger getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         this.id = id;
     }
 
