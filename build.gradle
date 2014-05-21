@@ -14,12 +14,17 @@ targetCompatibility = 6
 // Versions are in gradle.properties
 
 repositories {
-    mavenCentral()
-    jcenter()
+    maven {
+        url 'http://repo.spring.io/repo'
+    }
     maven {
         url "http://source.mysema.com/maven2/releases"
     }
-
+    jcenter()
+    mavenCentral()
+    maven {
+        url 'http://repo.spring.io/milestone'
+    }
 }
 sourceSets {
     main {
