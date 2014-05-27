@@ -25,6 +25,9 @@ repositories {
     maven {
         url 'http://repo.spring.io/milestone'
     }
+    maven {
+        url 'http://repo.spring.io/snapshot'
+    }
 }
 sourceSets {
     main {
@@ -37,6 +40,8 @@ dependencies {
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: springDataJpaVersion
     compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: springDataMongoDbVersion
     compile group: 'com.mysema.querydsl', name: 'querydsl-mongodb', version: queryDslVersion
+    compile group: 'org.springframework.data', name: 'spring-data-couchbase', version: springDataCouchbaseVersion
+
     compile group: 'com.mysema.querydsl', name: 'querydsl-jpa', version: queryDslVersion
     compile group: 'org.springframework', name: 'spring-context', version: springVersion
     compile group: 'org.springframework', name: 'spring-aop', version: springVersion
@@ -151,6 +156,12 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
     testLogging.showStandardStreams = true
 }
 
+
+task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
+    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
+    systemProperty 'spring.profiles.active', 'couchbase'
+    testLogging.showStandardStreams = true
+}
 
 eclipse {
     classpath {

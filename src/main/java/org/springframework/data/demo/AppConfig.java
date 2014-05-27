@@ -24,7 +24,7 @@ public class AppConfig {
     }
 
     @Bean
-    public PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
         PropertySourcesPlaceholderConfigurer pc = new PropertySourcesPlaceholderConfigurer();
         pc.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath:META-INF/spring/*.properties"));
         return pc;
