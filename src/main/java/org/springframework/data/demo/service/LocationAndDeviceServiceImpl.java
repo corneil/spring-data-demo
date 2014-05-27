@@ -66,11 +66,6 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     @Override
     @Transactional(readOnly = true)
     public List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate) {
-        return findLocationsFunctions(deviceId, startDate, endDate);
-        // return findLocationsQsl(deviceId, startDate, endDate);
-    }
-
-    private List<LocationUpdate> findLocationsFunctions(String deviceId, Date startDate, Date endDate) {
         logger.info("findLocations:" + deviceId + "," + startDate + "," + endDate);
         DeviceInfo device = deviceInfoRepository.findByDeviceId(deviceId);
         if (device == null) {
@@ -79,8 +74,8 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
         return locationUpdateRepository.findByDeviceAndLocTimeBetween(device, startDate, endDate);
     }
 
-    private List<LocationUpdate> findLocationsQsl(String deviceId, Date startDate, Date endDate) {
-        logger.info("findLocations:" + deviceId + "," + startDate + "," + endDate);
+    public List<LocationUpdate> findLocationsDSL(String deviceId, Date startDate, Date endDate) {
+        logger.info("findLocationDSL:" + deviceId + "," + startDate + "," + endDate);
         DeviceInfo device = deviceInfoRepository.findByDeviceId(deviceId);
         if (device == null) {
             throw new DataRetrievalFailureException("DeviceInfo:" + deviceId);

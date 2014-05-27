@@ -26,9 +26,15 @@ public interface UserGroupDataService {
 
     public List<UserInfo> listActiveUsersInGroup(String groupName);
 
+    public List<UserInfo> listActiveUsersInGroupDSL(String groupName);
+
     public List<UserInfo> listAllUsersInGroup(String groupName);
 
+    public List<UserInfo> listAllUsersInGroupDSL(String groupName);
+
     public List<GroupInfo> listGroupsForUser(String userId);
+
+    public List<GroupInfo> listGroupsForUserDSL(String userId);
 
     public void saveGroupInfo(@Valid GroupInfo groupInfo);
 

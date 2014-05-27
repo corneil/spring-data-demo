@@ -10,8 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.springframework.data.demo.data.QAuditEntry.auditEntry;
 
 /**
  * @author Corneil du Plessis
@@ -44,7 +47,12 @@ public class AuditServiceImpl implements AuditService {
     @Transactional(readOnly = true)
     public List<AuditEntry> find(String auditType, Date startDate, Date endDate) {
         logger.info("find:" + auditType + ":" + startDate + ":" + endDate);
-        /*
+        return repository.findByAuditTypeAndAuditTimeBetweenOrderByAuditTimeDesc(auditType, startDate, endDate);
+    }
+
+    @Override
+    public List<AuditEntry> findDSL(String auditType, Date startDate, Date endDate) {
+        logger.info("findDSL:" + auditType + ":" + startDate + ":" + endDate);
         List<AuditEntry> result = new ArrayList<AuditEntry>();
         Iterable<AuditEntry> resultSet = repository
                 .findAll(auditEntry.auditType.eq(auditType).and(auditEntry.auditTime.between(startDate, endDate)), auditEntry.auditTime.desc());
@@ -52,7 +60,5 @@ public class AuditServiceImpl implements AuditService {
             result.add(e);
         }
         return result;
-        */
-        return repository.findByAuditTypeAndAuditTimeBetweenOrderByAuditTimeDesc(auditType, startDate, endDate);
     }
 }

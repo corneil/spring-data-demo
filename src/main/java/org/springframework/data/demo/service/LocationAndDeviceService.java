@@ -20,4 +20,6 @@ public interface LocationAndDeviceService {
     void saveLocation(@Valid LocationUpdate locationUpdate);
 
     List<LocationUpdate> findLocations(String deviceId, Date startDate, Date endDate);
+
+    List<LocationUpdate> findLocationsDSL(String deviceId, Date startDate, Date endDate);
 }

@@ -54,6 +54,81 @@ public class UserGroupDataServiceIntegrationTest {
     public void testCreateUsersAndGroups() throws ParseException {
         long startTime = System.currentTimeMillis();
 
+        createUsers();
+        // Add Members
+        GroupInfo groupOne = dataService.findGroup("groupOne");
+        GroupInfo groupTwo = dataService.findGroup("groupTwo");
+        // Assertions
+        assertNotNull(groupOne);
+        assertNotNull(groupTwo);
+        UserInfo corneil = dataService.findUser("corneil");
+        UserInfo joe = dataService.findUser("joe");
+        dataService.saveGroupMember(new GroupMember(groupOne, corneil, true));
+        dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
+        dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
+        // Assertions
+        List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
+        System.out.println("Group1:" + usersG1);
+        assertEquals(2, usersG1.size());
+        // Test descending
+        assertEquals(joe.getId(), usersG1.get(0).getId());
+        assertEquals(corneil.getId(), usersG1.get(1).getId());
+        List<UserInfo> usersG2 = dataService.listActiveUsersInGroup("groupTwo");
+        System.out.println("Group2:" + usersG2);
+        assertEquals(1, usersG2.size());
+        // Add inactive member
+        dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
+        // Assertions
+        usersG2 = dataService.listActiveUsersInGroup("groupTwo");
+        assertEquals(1, usersG2.size());
+        usersG2 = dataService.listAllUsersInGroup("groupTwo");
+        assertEquals(2, usersG2.size());
+
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
+    }
+
+    @Test
+    public void testCreateUsersAndGroupsDSL() throws ParseException {
+        long startTime = System.currentTimeMillis();
+
+        createUsers();
+        // Add Members
+        GroupInfo groupOne = dataService.findGroup("groupOne");
+        GroupInfo groupTwo = dataService.findGroup("groupTwo");
+        // Assertions
+        assertNotNull(groupOne);
+        assertNotNull(groupTwo);
+        UserInfo corneil = dataService.findUser("corneil");
+        UserInfo joe = dataService.findUser("joe");
+        dataService.saveGroupMember(new GroupMember(groupOne, corneil, true));
+        dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
+        dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
+        // Assertions
+        List<UserInfo> usersG1 = dataService.listActiveUsersInGroupDSL("groupOne");
+        System.out.println("Group1:" + usersG1);
+        assertEquals(2, usersG1.size());
+        // Test descending
+        assertEquals(joe.getId(), usersG1.get(0).getId());
+        assertEquals(corneil.getId(), usersG1.get(1).getId());
+        List<UserInfo> usersG2 = dataService.listActiveUsersInGroupDSL("groupTwo");
+        System.out.println("Group2:" + usersG2);
+        assertEquals(1, usersG2.size());
+        // Add inactive member
+        dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
+        // Assertions
+        usersG2 = dataService.listActiveUsersInGroupDSL("groupTwo");
+        assertEquals(1, usersG2.size());
+        usersG2 = dataService.listAllUsersInGroupDSL("groupTwo");
+        assertEquals(2, usersG2.size());
+
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
+    }
+
+    private void createUsers() throws ParseException {
         assertNotNull(dataService);
         // Create Users
         if (dataService.findUser("corneil") == null) {
@@ -87,37 +162,5 @@ public class UserGroupDataServiceIntegrationTest {
             GroupInfo group = new GroupInfo("groupTwo", corneil);
             dataService.saveGroupInfo(group);
         }
-        // Add Members
-        GroupInfo groupOne = dataService.findGroup("groupOne");
-        GroupInfo groupTwo = dataService.findGroup("groupTwo");
-        // Assertions
-        assertNotNull(groupOne);
-        assertNotNull(groupTwo);
-        UserInfo corneil = dataService.findUser("corneil");
-        UserInfo joe = dataService.findUser("joe");
-        dataService.saveGroupMember(new GroupMember(groupOne, corneil, true));
-        dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
-        dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
-        // Assertions
-        List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
-        System.out.println("Group1:" + usersG1);
-        assertEquals(2, usersG1.size());
-        // Test descending
-        assertEquals(joe.getId(), usersG1.get(0).getId());
-        assertEquals(corneil.getId(), usersG1.get(1).getId());
-        List<UserInfo> usersG2 = dataService.listActiveUsersInGroup("groupTwo");
-        System.out.println("Group2:" + usersG2);
-        assertEquals(1, usersG2.size());
-        // Add inactive member
-        dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
-        // Assertions
-        usersG2 = dataService.listActiveUsersInGroup("groupTwo");
-        assertEquals(1, usersG2.size());
-        usersG2 = dataService.listAllUsersInGroup("groupTwo");
-        assertEquals(2, usersG2.size());
-
-        long endTime = System.currentTimeMillis();
-        double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
     }
 }

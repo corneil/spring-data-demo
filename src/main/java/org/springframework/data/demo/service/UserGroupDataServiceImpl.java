@@ -82,6 +82,18 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public List<UserInfo> listActiveUsersInGroup(String groupName) {
         logger.info("listActiveUsersInGroup:" + groupName);
         List<UserInfo> userList = new ArrayList<UserInfo>();
+
+        List<GroupMember> members = memberRepository.findByMemberOfgroupGroupNameAndEnabledTrueOrderByMemberUserIdDesc(groupName);
+        for (GroupMember member : members) {
+            userList.add(member.getMember());
+        }
+        return userList;
+    }
+
+    @java.lang.Override
+    public List<UserInfo> listActiveUsersInGroupDSL(String groupName) {
+        logger.info("listActiveUsersInGroupDSL:" + groupName);
+        List<UserInfo> userList = new ArrayList<UserInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName).and(groupMember.enabled.eq(Boolean.TRUE)),
                 groupMember.member.userId.desc());
         for (GroupMember member : members) {
@@ -95,6 +107,17 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public List<UserInfo> listAllUsersInGroup(String groupName) {
         logger.info("listAllUsersInGroup:" + groupName);
         List<UserInfo> users = new ArrayList<UserInfo>();
+        List<GroupMember> members = memberRepository.findByMemberOfgroupGroupName(groupName);
+        for (GroupMember member : members) {
+            users.add(member.getMember());
+        }
+        return users;
+    }
+
+    @java.lang.Override
+    public List<UserInfo> listAllUsersInGroupDSL(String groupName) {
+        logger.info("listAllUsersInGroupDSL:" + groupName);
+        List<UserInfo> users = new ArrayList<UserInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName));
         for (GroupMember member : members) {
             users.add(member.getMember());
@@ -106,6 +129,17 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public List<GroupInfo> listGroupsForUser(String userId) {
         logger.info("listGroupsForUser:" + userId);
+        List<GroupInfo> groups = new ArrayList<GroupInfo>();
+        Iterable<GroupMember> members = memberRepository.findByMemberUserIdAndEnabledTrue(userId);
+        for (GroupMember member : members) {
+            groups.add(member.getMemberOfgroup());
+        }
+        return groups;
+    }
+
+    @java.lang.Override
+    public List<GroupInfo> listGroupsForUserDSL(String userId) {
+        logger.info("listGroupsForUserDSL:" + userId);
         List<GroupInfo> groups = new ArrayList<GroupInfo>();
         Iterable<GroupMember> members = memberRepository.findAll(groupMember.member.userId.eq(userId).and(groupMember.enabled.eq(Boolean.TRUE)));
         for (GroupMember member : members) {

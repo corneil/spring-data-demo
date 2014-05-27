@@ -18,9 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * @author Corneil du Plessis
@@ -56,6 +54,46 @@ public class AuditEntryTest {
     @Test
     public void testAuditEntry() {
         long startTime = System.currentTimeMillis();
+        createAuditEntries();
+        Date startDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60));
+        Date endDate = new Date();
+        List<AuditEntry> entries = auditService.find("User", startDate, endDate);
+        Date prev = null;
+        for (AuditEntry e : entries) {
+            System.out.println("Entry:" + e);
+            if (prev != null) {
+                assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
+            }
+            prev = e.getAuditTime();
+        }
+        assertFalse(entries.isEmpty());
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
+    }
+
+    @Test
+    public void testAuditEntryDSL() {
+        long startTime = System.currentTimeMillis();
+        createAuditEntries();
+        Date startDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60));
+        Date endDate = new Date();
+        List<AuditEntry> entries = auditService.findDSL("User", startDate, endDate);
+        Date prev = null;
+        for (AuditEntry e : entries) {
+            System.out.println("Entry:" + e);
+            if (prev != null) {
+                assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
+            }
+            prev = e.getAuditTime();
+        }
+        assertFalse(entries.isEmpty());
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        System.out.printf("Test duration:%9.2f\n", duration);
+    }
+
+    private void createAuditEntries() {
         assertNotNull(auditService);
         AuditEntry entry = new AuditEntry(new Date(), "User", null);
         try {
@@ -79,20 +117,5 @@ public class AuditEntryTest {
         entry = new AuditEntry(new Date(), "User", "update");
         entry.getAuditInfo().add(new AuditInfo("name", "joe", "john"));
         auditService.save(entry);
-        Date startDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60));
-        Date endDate = new Date();
-        List<AuditEntry> entries = auditService.find("User", startDate, endDate);
-        Date prev = null;
-        for (AuditEntry e : entries) {
-            System.out.println("Entry:" + e);
-            if (prev != null) {
-                assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
-            }
-            prev = e.getAuditTime();
-        }
-        assertFalse(entries.isEmpty());
-        long endTime = System.currentTimeMillis();
-        double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
     }
 }

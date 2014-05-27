@@ -16,4 +16,6 @@ public interface AuditService {
     void save(@Valid AuditEntry entry);
 
     List<AuditEntry> find(String auditType, Date startDate, Date endDate);
+
+    List<AuditEntry> findDSL(String auditType, Date startDate, Date endDate);
 }
