@@ -17,9 +17,11 @@ repositories {
     maven {
         url 'http://repo.spring.io/repo'
     }
+    /*
     maven {
         url "http://source.mysema.com/maven2/releases"
     }
+    */
     jcenter()
     mavenCentral()
     maven {
