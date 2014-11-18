@@ -23,7 +23,7 @@ import javax.sql.DataSource;
 
 @Profile("jpa-hibernate")
 @Configuration
-@EnableJpaRepositories("org.springframework.data.demo")
+@EnableJpaRepositories("org.springframework.data.demo.repository")
 @PropertySource("classpath:META-INF/spring/database.properties")
 @EnableTransactionManagement()
 public class JpaHibernateConfig implements TransactionManagementConfigurer {

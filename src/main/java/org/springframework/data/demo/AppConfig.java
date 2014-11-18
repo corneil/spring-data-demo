@@ -11,7 +11,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import java.io.IOException;
 
 @Configuration
-@ComponentScan({"org.springframework.data.demo"})
+@ComponentScan({"org.springframework.data.demo.data", "org.springframework.data.demo.repository", "org.springframework.data.demo.service"})
 public class AppConfig {
     @Bean(name = "validator")
     public LocalValidatorFactoryBean validatorFactoryBean() {
