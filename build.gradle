@@ -71,13 +71,18 @@ dependencies {
     compile 'org.springframework:spring-aspects'
     compile 'org.springframework:spring-jdbc'
     compile 'org.springframework:spring-orm'
-    compile 'org.springframework:spring-core'
+    compile(group: 'org.springframework', name: 'spring-core', version: springVersion) {
+        exclude(module: 'commons-logging')
+    }
 
     compile 'org.mongodb:mongo-java-driver:2.11.4'
 
     compile 'org.hibernate:hibernate-core:' + hibernateVersion
     compile 'org.hibernate:hibernate-entitymanager:' + hibernateVersion
-    compile 'org.hibernate:hibernate-validator:' + hibernateValidatorVersion
+    compile(group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion) {
+        exclude(module: 'jaxb-api')
+        exclude(module: 'jaxb-impl')
+    }
 
     compile 'javax.validation:validation-api:1.1.0.Final'
 
@@ -94,7 +99,10 @@ dependencies {
     compile 'commons-collections:commons-collections'
     compile 'javax.transaction:jta:1.1'
     compile 'commons-pool:commons-pool'
-    compile 'commons-dbcp:commons-dbcp'
+    compile(group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4') {
+        exclude(module: 'commons-logging')
+        exclude(module: 'xml-apis')
+    }
 
     testCompile 'junit:junit'
     testCompile 'org.springframework:spring-test'
