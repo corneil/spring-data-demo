@@ -7,3 +7,5 @@ build
 *.iml
 .*
 /bin
+/build.log
+/classes/
