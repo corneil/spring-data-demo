@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.data.AuditInfo;
 import org.springframework.data.demo.service.AuditService;
+import org.springframework.data.demo.test.config.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

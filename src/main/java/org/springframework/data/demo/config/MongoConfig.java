@@ -1,4 +1,4 @@
-package org.springframework.data.demo;
+package org.springframework.data.demo.config;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;

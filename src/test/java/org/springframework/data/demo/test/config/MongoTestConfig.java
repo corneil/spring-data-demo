@@ -1,4 +1,4 @@
-package org.springframework.data.demo.test;
+package org.springframework.data.demo.test.config;
 
 import com.github.fakemongo.Fongo;
 import com.mongodb.*;

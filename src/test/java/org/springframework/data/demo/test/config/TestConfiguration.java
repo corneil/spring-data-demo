@@ -1,11 +1,11 @@
-package org.springframework.data.demo.test;
+package org.springframework.data.demo.test.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.data.demo.AppConfig;
-import org.springframework.data.demo.CouchbaseConfig;
-import org.springframework.data.demo.JpaHibernateConfig;
+import org.springframework.data.demo.config.AppConfig;
+import org.springframework.data.demo.config.CouchbaseConfig;
+import org.springframework.data.demo.config.JpaHibernateConfig;
 
 
 @Configuration

@@ -10,6 +10,7 @@ import org.springframework.data.demo.data.GroupInfo;
 import org.springframework.data.demo.data.GroupMember;
 import org.springframework.data.demo.data.UserInfo;
 import org.springframework.data.demo.service.UserGroupDataService;
+import org.springframework.data.demo.test.config.TestConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

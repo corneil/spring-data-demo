@@ -1,4 +1,4 @@
-package org.springframework.data.demo;
+package org.springframework.data.demo.config;
 
 import com.couchbase.client.CouchbaseClient;
 import org.slf4j.Logger;

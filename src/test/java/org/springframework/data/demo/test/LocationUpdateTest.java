@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.demo.data.DeviceInfo;
 import org.springframework.data.demo.data.LocationUpdate;
 import org.springframework.data.demo.service.LocationAndDeviceService;
+import org.springframework.data.demo.test.config.TestConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
