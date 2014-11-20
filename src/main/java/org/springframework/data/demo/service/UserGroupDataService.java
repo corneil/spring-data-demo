@@ -32,6 +32,8 @@ public interface UserGroupDataService {
 
     public List<UserInfo> listAllUsersInGroupDSL(String groupName);
 
+    public List<UserInfo> listAllUsers();
+
     public List<GroupInfo> listGroupsForUser(String userId);
 
     public List<GroupInfo> listGroupsForUserDSL(String userId);

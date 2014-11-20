@@ -168,4 +168,13 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
         logger.info("saveUserInfo:" + userInfo);
         userRepository.save(userInfo);
     }
+
+    @Override
+    public List<UserInfo> listAllUsers() {
+        List<UserInfo> result = new ArrayList<UserInfo>();
+        for (UserInfo info : userRepository.findAll()) {
+            result.add(info);
+        }
+        return result;
+    }
 }

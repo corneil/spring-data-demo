@@ -18,8 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -32,7 +31,6 @@ import static org.junit.Assert.assertNotNull;
  */
 public class UserGroupDataServiceIntegrationTest {
     final Date dob;
-
     @Autowired
     protected UserGroupDataService dataService;
 
@@ -47,13 +45,18 @@ public class UserGroupDataServiceIntegrationTest {
 
     @Before
     public void deleteData() {
+        UserInfo pietPompies = dataService.findUser("piet");
+        System.out.println("piet=" + pietPompies);
         dataService.deleteAllData();
+        if (pietPompies != null) {
+            dataService.saveUserInfo(pietPompies);
+        }
     }
 
     @Test
     public void testCreateUsersAndGroups() throws ParseException {
         long startTime = System.currentTimeMillis();
-
+        assertNotNull("Did not find user added with config", dataService.findUser("piet"));
         createUsers();
         // Add Members
         GroupInfo groupOne = dataService.findGroup("groupOne");
@@ -84,6 +87,17 @@ public class UserGroupDataServiceIntegrationTest {
         usersG2 = dataService.listAllUsersInGroup("groupTwo");
         assertEquals(2, usersG2.size());
 
+
+        boolean foundPiet = false;
+        for (UserInfo info : dataService.listAllUsers()) {
+            System.out.println(info.toString());
+            if ("piet".equals(info.getUserId())) {
+                foundPiet = true;
+            }
+        }
+        assertTrue("Did not find user added with config", foundPiet);
+
+
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
         System.out.printf("Test duration:%9.2f\n", duration);
@@ -92,7 +106,7 @@ public class UserGroupDataServiceIntegrationTest {
     @Test
     public void testCreateUsersAndGroupsDSL() throws ParseException {
         long startTime = System.currentTimeMillis();
-
+        assertNotNull("Did not find user added with config", dataService.findUser("piet"));
         createUsers();
         // Add Members
         GroupInfo groupOne = dataService.findGroup("groupOne");
@@ -122,6 +136,7 @@ public class UserGroupDataServiceIntegrationTest {
         assertEquals(1, usersG2.size());
         usersG2 = dataService.listAllUsersInGroupDSL("groupTwo");
         assertEquals(2, usersG2.size());
+
 
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
