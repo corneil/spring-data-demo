@@ -31,10 +31,14 @@ dependencyManagement {
 	imports {
 		mavenBom 'io.spring.platform:platform-bom:1.1.1.RELEASE'
 		mavenBom 'org.springframework.data:spring-data-releasetrain:Dijkstra-SR5'
-		
-   }
+        /*
+        Mongo Failure
+        mavenBom 'org.springframework.data:spring-data-releasetrain:Evans-SR2'
+         */
+
+
+    }
 	dependencies {
-		'org.springframework.data:spring-data-couchbase' springDataCouchbaseVersion
 		'com.h2database:h2' '1.3.175'
 		'mysql:mysql-connector-java' '5.1.34'
 		'com.github.fakemongo:fongo' '1.5.10'
@@ -197,5 +201,5 @@ idea {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '2.3'
 }
