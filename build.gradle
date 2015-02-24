@@ -7,6 +7,11 @@ buildscript {
 
     dependencies { classpath 'com.github.ben-manes:gradle-versions-plugin:0.7' }
 }
+
+plugins {
+	id "io.spring.dependency-management" version "0.4.0.RELEASE"
+}
+
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -22,7 +27,11 @@ sourceCompatibility = 7
 targetCompatibility = 7
 
 // Versions are in gradle.properties
-
+dependencyManagement {
+	imports {
+		mavenBom 'io.spring.platform:platform-bom:1.1.1.RELEASE'
+   }
+}
 repositories {
     mavenLocal()
     jcenter()
@@ -30,14 +39,6 @@ repositories {
     maven {
         url 'http://repo.spring.io/repo'
     }
-	/*
-    maven {
-        url 'http://repo.spring.io/milestone'
-    }
-    maven {
-        url 'http://repo.spring.io/snapshot'
-    }
-    */
 }
 sourceSets {
     main {
@@ -53,54 +54,54 @@ configurations {
 
 dependencies {
 	
-	compile 'org.springframework.data:spring-data-commons:' + springDataCommonsVersion
-    compile 'org.springframework.data:spring-data-jpa:' + springDataJpaVersion
-    compile 'org.springframework.data:spring-data-mongodb:' + springDataMongoDbVersion
+	compile 'org.springframework.data:spring-data-commons'
+    compile 'org.springframework.data:spring-data-jpa'
+    compile 'org.springframework.data:spring-data-mongodb'
     compile 'org.springframework.data:spring-data-couchbase:' + springDataCouchbaseVersion
 
-    compile 'com.mysema.querydsl:querydsl-mongodb:' + queryDslVersion
-    compile 'com.mysema.querydsl:querydsl-jpa:' + queryDslVersion
+    compile 'com.mysema.querydsl:querydsl-mongodb'
+    compile 'com.mysema.querydsl:querydsl-jpa'
 	
-    compile 'org.springframework:spring-context:' + springVersion
-    compile 'org.springframework:spring-aop:' + springVersion
-    compile 'org.springframework:spring-aspects:' + springVersion
-    compile 'org.springframework:spring-jdbc:' + springVersion
-    compile 'org.springframework:spring-orm:' + springVersion
-    compile(group: 'org.springframework', name: 'spring-core', version: springVersion) {
+    compile 'org.springframework:spring-context'
+    compile 'org.springframework:spring-aop'
+    compile 'org.springframework:spring-aspects'
+    compile 'org.springframework:spring-jdbc'
+    compile 'org.springframework:spring-orm'
+    compile(group: 'org.springframework', name: 'spring-core') {
         exclude(module: 'commons-logging')
     }
 
     compile 'org.mongodb:mongo-java-driver:2.12.4'
 
-    compile 'org.hibernate:hibernate-core:' + hibernateVersion
-    compile 'org.hibernate:hibernate-entitymanager:' + hibernateVersion
-    compile(group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidatorVersion) {
+    compile 'org.hibernate:hibernate-core'
+    compile 'org.hibernate:hibernate-entitymanager'
+    compile(group: 'org.hibernate', name: 'hibernate-validator') {
         exclude(module: 'jaxb-api')
         exclude(module: 'jaxb-impl')
     }
 
-    compile 'javax.validation:validation-api:1.1.0.Final'
+    compile 'javax.validation:validation-api'
 
-    compile 'org.slf4j:slf4j-api:' + slf4JVersion
-    compile 'org.slf4j:jcl-over-slf4j:' + slf4JVersion
-    compile 'org.slf4j:jul-to-slf4j:' + slf4JVersion
-    compile 'org.slf4j:slf4j-log4j12:' + slf4JVersion
-    compile 'log4j:log4j:1.2.17'
+    compile 'org.slf4j:slf4j-api'
+    compile 'org.slf4j:jcl-over-slf4j'
+    compile 'org.slf4j:jul-to-slf4j'
+    compile 'org.slf4j:slf4j-log4j12'
+    compile 'log4j:log4j'
 
-    compile 'org.aspectj:aspectjrt:' + aspectJVersion
-    compile 'org.aspectj:aspectjweaver:' + aspectJVersion
+    compile 'org.aspectj:aspectjrt'
+    compile 'org.aspectj:aspectjweaver'
 
-    compile 'org.apache.commons:commons-lang3:3.3.2'
-    compile 'commons-collections:commons-collections:3.2.1'
+    compile 'org.apache.commons:commons-lang3'
+    compile 'commons-collections:commons-collections'
     compile 'javax.transaction:jta:1.1'
-    compile 'commons-pool:commons-pool:1.6'
-    compile(group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4') {
+    compile 'commons-pool:commons-pool'
+    compile(group: 'commons-dbcp', name: 'commons-dbcp') {
         exclude(module: 'commons-logging')
         exclude(module: 'xml-apis')
     }
 
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.springframework:spring-test:' + springVersion
+    testCompile 'junit:junit'
+    testCompile 'org.springframework:spring-test'
 
     testCompile 'com.h2database:h2:1.3.175'
     testCompile 'mysql:mysql-connector-java:5.1.34'
@@ -109,9 +110,9 @@ dependencies {
 
     testCompile 'javax.el:el-api:2.2'
 
-    springAgent 'org.springframework:spring-instrument:' + springVersion
+    springAgent 'org.springframework:spring-instrument'
 
-    queryDslTool 'com.mysema.querydsl:querydsl-apt:' + queryDslVersion
+    queryDslTool 'com.mysema.querydsl:querydsl-apt'
 }
 
 task generateSources {
