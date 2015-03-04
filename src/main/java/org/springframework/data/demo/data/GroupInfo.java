@@ -1,6 +1,7 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import java.math.BigInteger;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -21,10 +22,8 @@ public class GroupInfo {
 
     // Using a string id for use in both MongoDB and JPA.
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 40)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger id;
 
     public GroupInfo() {
         super();
@@ -52,11 +51,11 @@ public class GroupInfo {
         this.groupOwner = groupOwner;
     }
 
-    public Object getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -65,7 +64,7 @@ public class GroupInfo {
         final StringBuilder sb = new StringBuilder("GroupInfo{");
         sb.append("groupName='").append(groupName).append('\'');
         sb.append(", groupOwner=").append(groupOwner);
-        sb.append(", id='").append(id).append('\'');
+        sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
     }

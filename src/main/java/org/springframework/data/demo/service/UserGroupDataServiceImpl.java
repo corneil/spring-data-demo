@@ -36,10 +36,11 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Override
     @Transactional
     public void deleteAllData() {
-        logger.info("deleteAllData");
+        logger.info("deleteAllData-start");
         memberRepository.deleteAll();
         groupRepository.deleteAll();
         userRepository.deleteAll();
+        logger.info("deleteAllData-complete");
     }
 
     @Override

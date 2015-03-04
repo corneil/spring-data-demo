@@ -1,12 +1,14 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import java.math.BigInteger;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -17,10 +19,8 @@ import javax.validation.constraints.NotNull;
 @QueryEntity
 public class DeviceInfo {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 40)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger id;
 
     @NotNull
     @Indexed(unique = true)
@@ -55,18 +55,18 @@ public class DeviceInfo {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("DeviceInfo{");
-        sb.append("id='").append(id).append('\'');
+        sb.append("id=").append(id);
         sb.append(", deviceId='").append(deviceId).append('\'');
         sb.append(", deviceName='").append(deviceName).append('\'');
         sb.append('}');
         return sb.toString();
     }
 
-    public Object getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

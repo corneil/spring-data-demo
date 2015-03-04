@@ -1,6 +1,7 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import java.math.BigInteger;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -17,10 +18,8 @@ import java.util.Date;
 @QueryEntity
 public class LocationUpdate {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 40)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger id;
 
     @Indexed(unique = false)
     private double latX;
@@ -47,11 +46,11 @@ public class LocationUpdate {
         this.locTime = locTime;
     }
 
-    public String getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -130,7 +129,7 @@ public class LocationUpdate {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LocationUpdate{");
-        sb.append("id='").append(id).append('\'');
+        sb.append("id=").append(id);
         sb.append(", latX=").append(latX);
         sb.append(", latY=").append(latY);
         sb.append(", locDetail='").append(locDetail).append('\'');

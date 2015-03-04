@@ -1,14 +1,22 @@
 package org.springframework.data.demo.data;
 
+//~--- non-JDK imports --------------------------------------------------------
+
 import com.mysema.query.annotations.QueryEntity;
-import org.hibernate.annotations.GenericGenerator;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+//~--- JDK imports ------------------------------------------------------------
+
+import java.math.BigInteger;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.*;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by corneil on 3/28/14.
@@ -17,25 +25,22 @@ import java.util.List;
 @QueryEntity
 public class AuditEntry {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 40)
-    private String id;
-
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger      id;
     @Temporal(value = TemporalType.TIMESTAMP)
     @Indexed(unique = false)
     @NotNull
-    private Date auditTime;
-
+    private Date            auditTime;
     @NotNull
     @Indexed(unique = false)
-    private String auditType;
-
+    private String          auditType;
     @NotNull
     @Indexed(unique = false)
-    private String eventType;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private String          eventType;
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        fetch   = FetchType.EAGER
+    )
     private List<AuditInfo> auditInfo;
 
     public AuditEntry() {
@@ -49,20 +54,23 @@ public class AuditEntry {
         this.auditInfo = new ArrayList<AuditInfo>();
     }
 
-    public Object getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
-
     }
 
     @Override
     public int hashCode() {
         int result = auditTime.hashCode();
+
         result = 31 * result + auditType.hashCode();
-        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
+        result = 31 * result + ((eventType != null)
+                                ? eventType.hashCode()
+                                : 0);
+
         return result;
     }
 
@@ -71,7 +79,8 @@ public class AuditEntry {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+
+        if ((o == null) || (getClass() != o.getClass())) {
             return false;
         }
 
@@ -80,10 +89,14 @@ public class AuditEntry {
         if (!auditTime.equals(that.auditTime)) {
             return false;
         }
+
         if (!auditType.equals(that.auditType)) {
             return false;
         }
-        if (eventType != null ? !eventType.equals(that.eventType) : that.eventType != null) {
+
+        if ((eventType != null)
+            ? !eventType.equals(that.eventType)
+            : that.eventType != null) {
             return false;
         }
 
@@ -93,12 +106,14 @@ public class AuditEntry {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AuditEntry{");
-        sb.append("id='").append(id).append('\'');
+
+        sb.append("id=").append(id);
         sb.append(", auditTime=").append(auditTime);
         sb.append(", auditType='").append(auditType).append('\'');
         sb.append(", eventType='").append(eventType).append('\'');
         sb.append(", auditInfo=").append(auditInfo);
         sb.append('}');
+
         return sb.toString();
     }
 
@@ -134,3 +149,6 @@ public class AuditEntry {
         this.auditInfo = auditInfo;
     }
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

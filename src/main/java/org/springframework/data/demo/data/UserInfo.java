@@ -1,6 +1,7 @@
 package org.springframework.data.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import java.math.BigInteger;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,10 +24,8 @@ public class UserInfo {
 
     // Using a string id for use in both MongoDB and JPA.
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 40)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)    
+    private BigInteger id;
 
     @NotNull
     @Column(unique = true)
@@ -68,11 +67,11 @@ public class UserInfo {
         this.fullName = fullName;
     }
 
-    public String getId() {
+    public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -87,11 +86,11 @@ public class UserInfo {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UserInfo{");
-        sb.append("dateOfBirth=").append(dateOfBirth);
+        sb.append("userId='").append(userId).append('\'');
+        sb.append(", dateOfBirth=").append(dateOfBirth);
         sb.append(", emailAddress='").append(emailAddress).append('\'');
         sb.append(", fullName='").append(fullName).append('\'');
-        sb.append(", id='").append(id).append('\'');
-        sb.append(", userId='").append(userId).append('\'');
+        sb.append(", id=").append(id);
         sb.append('}');
         return sb.toString();
     }

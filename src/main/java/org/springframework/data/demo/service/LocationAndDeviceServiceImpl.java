@@ -37,9 +37,10 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     @Override
     @Transactional
     public void deleteAllData() {
-        logger.info("deleteAllData");
+        logger.info("deleteAllData-start");
         locationUpdateRepository.deleteAll();
         deviceInfoRepository.deleteAll();
+        logger.info("deleteAllData-complete");
     }
 
     @Override
