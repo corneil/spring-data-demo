@@ -4,6 +4,8 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.demo.data.GroupInfo;
@@ -19,7 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,6 +34,7 @@ import static org.junit.Assert.*;
  * 
  */
 public class UserGroupDataServiceIntegrationTest {
+    private static Logger logger = LoggerFactory.getLogger("tests");
     final Date dob;
     @Autowired
     protected UserGroupDataService dataService;
@@ -47,7 +51,7 @@ public class UserGroupDataServiceIntegrationTest {
     @Before
     public void deleteData() {
         UserInfo pietPompies = dataService.findUser("piet");
-        System.out.println("piet=" + pietPompies);
+        logger.info("piet=" + pietPompies);
         dataService.deleteAllData();
         if (pietPompies != null) {
             dataService.saveUserInfo(pietPompies);
@@ -72,13 +76,13 @@ public class UserGroupDataServiceIntegrationTest {
         dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
         // Assertions
         List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
-        System.out.println("Group1:" + usersG1);
+        logger.info("Group1:" + usersG1);
         assertEquals(2, usersG1.size());
         // Test descending
         assertEquals(joe.getId(), usersG1.get(0).getId());
         assertEquals(corneil.getId(), usersG1.get(1).getId());
         List<UserInfo> usersG2 = dataService.listActiveUsersInGroup("groupTwo");
-        System.out.println("Group2:" + usersG2);
+        logger.info("Group2:" + usersG2);
         assertEquals(1, usersG2.size());
         // Add inactive member
         dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
@@ -91,7 +95,7 @@ public class UserGroupDataServiceIntegrationTest {
 
         boolean foundPiet = false;
         for (UserInfo info : dataService.listAllUsers()) {
-            System.out.println(info.toString());
+            logger.info(info.toString());
             if ("piet".equals(info.getUserId())) {
                 foundPiet = true;
             }
@@ -101,7 +105,7 @@ public class UserGroupDataServiceIntegrationTest {
 
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
+        logger.info(String.format("Test duration:%9.2f\n", duration));
     }
 
     @Test
@@ -122,13 +126,13 @@ public class UserGroupDataServiceIntegrationTest {
         dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
         // Assertions
         List<UserInfo> usersG1 = dataService.listActiveUsersInGroupDSL("groupOne");
-        System.out.println("Group1:" + usersG1);
+        logger.info("Group1:" + usersG1);
         assertEquals(2, usersG1.size());
         // Test descending
         assertEquals(joe.getId(), usersG1.get(0).getId());
         assertEquals(corneil.getId(), usersG1.get(1).getId());
         List<UserInfo> usersG2 = dataService.listActiveUsersInGroupDSL("groupTwo");
-        System.out.println("Group2:" + usersG2);
+        logger.info("Group2:" + usersG2);
         assertEquals(1, usersG2.size());
         // Add inactive member
         dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
@@ -141,7 +145,7 @@ public class UserGroupDataServiceIntegrationTest {
 
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
+        logger.info(String.format("Test duration:%9.2f\n", duration));
     }
 
     private void createUsers() throws ParseException {

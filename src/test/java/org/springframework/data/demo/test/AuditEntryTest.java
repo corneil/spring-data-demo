@@ -4,6 +4,8 @@ package org.springframework.data.demo.test;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.data.demo.data.AuditEntry;
@@ -30,6 +32,7 @@ import static org.junit.Assert.*;
 // @ActiveProfiles(profiles = "jpa-hibernate")
 // @ActiveProfiles(profiles = "mongo")
 public class AuditEntryTest {
+    private static Logger logger = LoggerFactory.getLogger("tests");
     @Autowired
     protected AuditService auditService;
 
@@ -61,7 +64,7 @@ public class AuditEntryTest {
         List<AuditEntry> entries = auditService.find("User", startDate, endDate);
         Date prev = null;
         for (AuditEntry e : entries) {
-            System.out.println("Entry:" + e);
+            logger.info("Entry:" + e);
             if (prev != null) {
                 assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
             }
@@ -70,7 +73,7 @@ public class AuditEntryTest {
         assertFalse(entries.isEmpty());
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
+        logger.info(String.format("Test duration:%9.2f\n", duration));
     }
 
     @Test
@@ -82,7 +85,7 @@ public class AuditEntryTest {
         List<AuditEntry> entries = auditService.findDSL("User", startDate, endDate);
         Date prev = null;
         for (AuditEntry e : entries) {
-            System.out.println("Entry:" + e);
+            logger.info("Entry:" + e);
             if (prev != null) {
                 assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
             }
@@ -91,7 +94,7 @@ public class AuditEntryTest {
         assertFalse(entries.isEmpty());
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
-        System.out.printf("Test duration:%9.2f\n", duration);
+        logger.info(String.format("Test duration:%9.2f\n", duration));
     }
 
     private void createAuditEntries() {
@@ -105,8 +108,8 @@ public class AuditEntryTest {
             assertNotNull("Expected ConstraintViolationException:" + x, cv);
             if (cv != null) {
                 for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
-                    System.out.println("Constraint:" + v);
-                    System.out.println("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
+                    logger.info("Constraint:" + v);
+                    logger.info("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
                 }
                 assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
             }
