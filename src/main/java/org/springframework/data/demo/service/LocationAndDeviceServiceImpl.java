@@ -60,7 +60,7 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     @Override
     @Transactional
     public void saveLocation(@Valid LocationUpdate locationUpdate) {
-        logger.info("saveLocation:" + locationUpdate);
+        logger.debug("saveLocation:" + locationUpdate);
         locationUpdateRepository.save(locationUpdate);
     }
 
