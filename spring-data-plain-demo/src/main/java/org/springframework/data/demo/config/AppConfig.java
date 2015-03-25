@@ -11,7 +11,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import java.io.IOException;
 
 @Configuration
-@ComponentScan({"org.springframework.data.demo.config", "org.springframework.data.demo.service"})
+@ComponentScan({"org.springframework.data.demo.service", "org.springframework.data.demo.data"})
 public class AppConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {

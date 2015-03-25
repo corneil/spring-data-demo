@@ -140,5 +140,5 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
     testLogging.showStandardStreams = true
 }
 
-// check.dependsOn testMongo
+check.dependsOn testMongo
 

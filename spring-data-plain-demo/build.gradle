@@ -112,7 +112,7 @@ task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
     testLogging.showStandardStreams = true
 }
 
-// check.dependsOn testMongo
+check.dependsOn testMongo
 // check.dependsOn testElasticSearch
 // check.dependsOn testCouchbase
 

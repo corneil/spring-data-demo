@@ -15,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -81,11 +83,17 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public List<UserInfo> listActiveUsersInGroup(String groupName) {
         logger.info("listActiveUsersInGroup:" + groupName);
         List<UserInfo> userList = new ArrayList<UserInfo>();
-
-        List<GroupMember> members = memberRepository.findByMemberOfgroupGroupNameAndEnabledTrueOrderByMemberUserIdDesc(groupName);
+        GroupInfo group = groupRepository.findByGroupName(groupName);
+        List<GroupMember> members = memberRepository.findByMemberOfgroupAndEnabledTrue(group);
         for (GroupMember member : members) {
             userList.add(member.getMember());
         }
+        Collections.sort(userList, new Comparator<UserInfo>() {
+            @Override
+            public int compare(UserInfo o1, UserInfo o2) {
+                return -1 * o1.getUserId().compareTo(o2.getUserId());
+            }
+        });
         return userList;
     }
 
@@ -94,8 +102,10 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public List<UserInfo> listAllUsersInGroup(String groupName) {
         logger.info("listAllUsersInGroup:" + groupName);
+        GroupInfo group = groupRepository.findByGroupName(groupName);
+
+        List<GroupMember> members = memberRepository.findByMemberOfgroup(group);
         List<UserInfo> users = new ArrayList<UserInfo>();
-        List<GroupMember> members = memberRepository.findByMemberOfgroupGroupName(groupName);
         for (GroupMember member : members) {
             users.add(member.getMember());
         }

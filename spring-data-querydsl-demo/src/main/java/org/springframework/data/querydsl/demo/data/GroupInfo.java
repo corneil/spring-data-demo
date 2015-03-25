@@ -2,6 +2,7 @@ package org.springframework.data.querydsl.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import java.math.BigInteger;
 
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class GroupInfo {
     @NotNull
     @Indexed(unique = true)
@@ -17,6 +19,7 @@ public class GroupInfo {
 
     @NotNull
     @ManyToOne
+    @DBRef
     private UserInfo groupOwner;
 
     // Using a string id for use in both MongoDB and JPA.

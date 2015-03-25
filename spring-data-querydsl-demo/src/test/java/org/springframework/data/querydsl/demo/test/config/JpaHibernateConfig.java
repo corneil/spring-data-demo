@@ -1,4 +1,4 @@
-package org.springframework.data.querydsl.demo.config;
+package org.springframework.data.querydsl.demo.test.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

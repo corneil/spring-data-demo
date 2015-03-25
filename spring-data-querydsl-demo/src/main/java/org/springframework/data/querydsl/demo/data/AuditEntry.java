@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class AuditEntry {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

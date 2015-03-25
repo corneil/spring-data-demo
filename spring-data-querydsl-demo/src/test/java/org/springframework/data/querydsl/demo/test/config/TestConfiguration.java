@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.querydsl.demo.config.AppConfig;
-import org.springframework.data.querydsl.demo.config.JpaHibernateConfig;
 
 import javax.annotation.PostConstruct;
 

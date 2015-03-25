@@ -15,6 +15,7 @@ import java.util.Date;
 
 @Entity
 @Document(indexName = "locationupdate")
+@org.springframework.data.mongodb.core.mapping.Document
 public class LocationUpdate {
     @Id
     @GeneratedValue(generator = "system-uuid")

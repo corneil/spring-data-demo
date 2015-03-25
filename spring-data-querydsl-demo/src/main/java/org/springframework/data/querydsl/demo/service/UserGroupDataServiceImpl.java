@@ -15,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static org.springframework.data.querydsl.demo.data.QGroupMember.groupMember;
@@ -88,6 +90,12 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
         for (GroupMember member : members) {
             userList.add(member.getMember());
         }
+        Collections.sort(userList, new Comparator<UserInfo>() {
+            @Override
+            public int compare(UserInfo o1, UserInfo o2) {
+                return -1 * o1.getUserId().compareTo(o2.getUserId());
+            }
+        });
         return userList;
     }
 

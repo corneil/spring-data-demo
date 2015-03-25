@@ -1,4 +1,4 @@
-package org.springframework.data.demo.config;
+package org.springframework.data.demo.test.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

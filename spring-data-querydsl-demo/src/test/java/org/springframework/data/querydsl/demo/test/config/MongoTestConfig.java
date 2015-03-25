@@ -13,9 +13,7 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.WriteResultChecking;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.util.Assert;
 
-import javax.annotation.PostConstruct;
 import java.net.UnknownHostException;
 import java.util.Collection;
 import java.util.List;
@@ -32,39 +30,16 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     @Value("${mongo.url}")
     protected String url;
 
-    protected Mongo localMongo;
-
     @Override
     protected String getDatabaseName() {
         logger.info("getDatabaseName");
-        if (localMongo == null) {
-            try {
-                mongo();
-            } catch (Exception e) {
-                logger.error("mongo:" + e, e);
-            }
-        }
-        Assert.notNull(databaseName);
-        Assert.hasText(databaseName);
         return databaseName;
-    }
-
-    @PostConstruct
-    public void forceMongoCreate() {
-        try {
-            mongo();
-        } catch (Exception e) {
-            logger.error("mongo:" + e, e);
-        }
     }
 
     @Override
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
         logger.info("mongoTemplate");
-        if (localMongo == null) {
-            mongo();
-        }
         MongoTemplate template = super.mongoTemplate();
         template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
         return template;
@@ -75,12 +50,7 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     public Mongo mongo() throws Exception {
         logger.warn("*** Using Fake Mongo ***");
         FakeMongo fakeMongo = new FakeMongo("sd");
-        DB sdDb = fakeMongo.getDB("sd");
-        databaseName = sdDb.getName();
-        Assert.notNull(databaseName);
-        Assert.hasText(databaseName);
-        localMongo = fakeMongo;
-        return localMongo;
+        return fakeMongo;
     }
 
     private static class FakeMongo extends Mongo {

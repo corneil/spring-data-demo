@@ -15,6 +15,7 @@ import java.util.Date;
 
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class LocationUpdate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

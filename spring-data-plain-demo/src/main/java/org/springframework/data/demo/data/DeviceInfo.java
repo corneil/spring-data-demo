@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Document(indexName = "deviceinfo")
+@org.springframework.data.mongodb.core.mapping.Document
 public class DeviceInfo {
     @Id
     @GeneratedValue(generator = "system-uuid")

@@ -21,6 +21,7 @@ import java.util.List;
  */
 @Entity
 @Document(indexName = "auditentry")
+@org.springframework.data.mongodb.core.mapping.Document
 public class AuditEntry {
     @Id
     @GeneratedValue(generator = "system-uuid")

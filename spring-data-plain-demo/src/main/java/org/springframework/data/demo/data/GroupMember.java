@@ -2,6 +2,7 @@ package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Document(indexName = "groupmember")
+@org.springframework.data.mongodb.core.mapping.Document
 public class GroupMember {
     @NotNull
     private Boolean enabled;
@@ -19,15 +21,16 @@ public class GroupMember {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-
     private String id;
 
     @NotNull
     @ManyToOne
+    @DBRef
     private UserInfo member;
 
     @NotNull
     @ManyToOne
+    @DBRef
     private GroupInfo memberOfgroup;
 
     public GroupMember() {

@@ -21,8 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,51 +60,56 @@ public class UserGroupDataServiceIntegrationTest {
     @Test
     public void testCreateUsersAndGroups() throws ParseException {
         long startTime = System.currentTimeMillis();
-        // assertNotNull("Did not find user added with config", dataService.findUser("piet"));
-        createUsers();
-        // Add Members
-        GroupInfo groupOne = dataService.findGroup("groupOne");
-        GroupInfo groupTwo = dataService.findGroup("groupTwo");
-        // Assertions
-        assertNotNull(groupOne);
-        assertNotNull(groupTwo);
-        UserInfo corneil = dataService.findUser("corneil");
-        UserInfo joe = dataService.findUser("joe");
-        dataService.saveGroupMember(new GroupMember(groupOne, corneil, true));
-        dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
-        dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
-        // Assertions
-        List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
-        logger.info("Group1:" + usersG1);
-        assertEquals(2, usersG1.size());
-        // Test descending
-        assertEquals(joe.getId(), usersG1.get(0).getId());
-        assertEquals(corneil.getId(), usersG1.get(1).getId());
-        List<UserInfo> usersG2 = dataService.listActiveUsersInGroup("groupTwo");
-        logger.info("Group2:" + usersG2);
-        assertEquals(1, usersG2.size());
-        // Add inactive member
-        dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
-        // Assertions
-        usersG2 = dataService.listActiveUsersInGroup("groupTwo");
-        assertEquals(1, usersG2.size());
-        usersG2 = dataService.listAllUsersInGroup("groupTwo");
-        assertEquals(2, usersG2.size());
+        try {
+            // assertNotNull("Did not find user added with config", dataService.findUser("piet"));
+            createUsers();
+            // Add Members
+            GroupInfo groupOne = dataService.findGroup("groupOne");
+            GroupInfo groupTwo = dataService.findGroup("groupTwo");
+            // Assertions
+            assertNotNull(groupOne);
+            assertNotNull(groupTwo);
+            UserInfo corneil = dataService.findUser("corneil");
+            UserInfo joe = dataService.findUser("joe");
+            dataService.saveGroupMember(new GroupMember(groupOne, corneil, true));
+            dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
+            dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
+            // Assertions
+            List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
+            logger.info("Group1:" + usersG1);
+            assertEquals(2, usersG1.size());
+            // Test descending
+            assertEquals(joe.getId(), usersG1.get(0).getId());
+            assertEquals(corneil.getId(), usersG1.get(1).getId());
+            List<UserInfo> usersG2 = dataService.listActiveUsersInGroup("groupTwo");
+            logger.info("Group2:" + usersG2);
+            assertEquals(1, usersG2.size());
+            // Add inactive member
+            dataService.saveGroupMember(new GroupMember(groupTwo, joe, false));
+            // Assertions
+            usersG2 = dataService.listActiveUsersInGroup("groupTwo");
+            assertEquals(1, usersG2.size());
+            usersG2 = dataService.listAllUsersInGroup("groupTwo");
+            assertEquals(2, usersG2.size());
 
 
-        boolean foundPiet = false;
-        for (UserInfo info : dataService.listAllUsers()) {
-            logger.info(info.toString());
-            if ("piet".equals(info.getUserId())) {
-                foundPiet = true;
+            boolean foundPiet = false;
+            for (UserInfo info : dataService.listAllUsers()) {
+                logger.info(info.toString());
+                if ("piet".equals(info.getUserId())) {
+                    foundPiet = true;
+                }
             }
+            // TODO find problem with repo load. assertTrue("Did not find user added with config", foundPiet);
+        } catch (Throwable x) {
+            logger.error("testCreateUsersAndGroups:" + x, x);
+            fail(x.toString());
+        } finally {
+            long endTime = System.currentTimeMillis();
+            double duration = ((double) (endTime - startTime)) / 1000.0;
+            logger.info(String.format("Test duration:%9.2f\n", duration));
         }
-        // TODO find problem with repo load. assertTrue("Did not find user added with config", foundPiet);
 
-
-        long endTime = System.currentTimeMillis();
-        double duration = ((double) (endTime - startTime)) / 1000.0;
-        logger.info(String.format("Test duration:%9.2f\n", duration));
     }
 
     private void createUsers() throws ParseException {

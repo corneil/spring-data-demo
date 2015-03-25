@@ -1,6 +1,7 @@
 package org.springframework.data.querydsl.demo.data;
 
 import com.mysema.query.annotations.QueryEntity;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ public class GroupMember {
 
     @NotNull
     @ManyToOne
+    @DBRef
     private UserInfo member;
 
     @NotNull

@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.demo.config.AppConfig;
-import org.springframework.data.demo.config.CouchbaseConfig;
-import org.springframework.data.demo.config.ElasticSearchConfig;
-import org.springframework.data.demo.config.JpaHibernateConfig;
 
 import javax.annotation.PostConstruct;
 

@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class UserInfo {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(style = "M-")

@@ -12,6 +12,7 @@ import java.math.BigInteger;
  */
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class DeviceInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
