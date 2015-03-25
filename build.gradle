@@ -14,196 +14,33 @@ repositories {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-
 group = 'com.tsctech.springdata.demo'
-version = '1.0.BUILD-SNAPSHOT'
+
 
 description = 'Spring Data Demo'
 
-sourceCompatibility = 7
-targetCompatibility = 7
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    version = '1.0.BUILD-SNAPSHOT'
+    apply from: new File(rootProject.projectDir, 'dependencies.gradle')
 
-dependencyManagement {
-	imports {
-        mavenBom 'io.spring.platform:platform-bom:' + springIoPlatformVersion
+    sourceCompatibility = 7
+    targetCompatibility = 7
 
-        mavenBom 'org.springframework.data:spring-data-releasetrain:' + springDataReleaseTrain
-		
-        /*
-        Mongo Failure
-        mavenBom 'org.springframework.data:spring-data-releasetrain:Evans-SR2'
-        mavenBom 'org.springframework.data:spring-data-releasetrain:Fowler-RC1'
-         */
-
-
-    }
-	dependencies {
-        dependency 'com.h2database:h2:1.4.185'
-        dependency 'mysql:mysql-connector-java:5.1.34'
-        dependency 'com.github.fakemongo:fongo:1.5.10'
-        dependency 'javax.el:el-api:2.2'
-	}
-}
-sourceSets {
-    main {
-        // Fixes problem with JPA EntityManager factory requiring classes and persistence.xml in same path
-        output.resourcesDir = output.classesDir
-    }
-}
-
-configurations {
-    queryDslTool
-    springAgent
-}
-
-dependencies {
-	
-	compile 'org.springframework.data:spring-data-commons'
-    compile 'org.springframework.data:spring-data-jpa'
-    compile 'org.springframework.data:spring-data-mongodb'
-    compile 'org.springframework.data:spring-data-couchbase'
-    compile 'org.springframework.data:spring-data-elasticsearch'
-
-    compile 'com.mysema.querydsl:querydsl-mongodb'
-    compile 'com.mysema.querydsl:querydsl-jpa'
-	
-    compile 'org.springframework:spring-context'
-    compile 'org.springframework:spring-aop'
-    compile 'org.springframework:spring-aspects'
-    compile 'org.springframework:spring-jdbc'
-    compile 'org.springframework:spring-orm'
-    compile(group: 'org.springframework', name: 'spring-core') {
-        exclude(module: 'commons-logging')
-    }
-
-    compile 'org.mongodb:mongo-java-driver'
-
-    compile 'org.hibernate:hibernate-core'
-    compile 'org.hibernate:hibernate-entitymanager'
-    compile(group: 'org.hibernate', name: 'hibernate-validator') {
-        exclude(module: 'jaxb-api')
-        exclude(module: 'jaxb-impl')
-    }
-
-    compile 'javax.validation:validation-api'
-    compile 'com.fasterxml.jackson.core:jackson-core'
-    compile 'com.fasterxml.jackson.core:jackson-databind'
-    compile 'com.fasterxml.jackson.core:jackson-annotations'
-
-
-    compile 'ch.qos.logback:logback-classic'
-
-
-    compile 'org.aspectj:aspectjrt'
-    compile 'org.aspectj:aspectjweaver'
-
-    compile 'org.apache.commons:commons-lang3'
-    compile 'commons-collections:commons-collections'
-    compile 'javax.transaction:jta:1.1'
-    compile 'commons-pool:commons-pool'
-    compile(group: 'commons-dbcp', name: 'commons-dbcp') {
-        exclude(module: 'commons-logging')
-        exclude(module: 'xml-apis')
-    }
-
-    testCompile 'junit:junit'
-    testCompile 'org.springframework:spring-test'
-    testCompile 'org.hamcrest:hamcrest-all'
-
-
-    testCompile 'com.h2database:h2'
-    testCompile 'mysql:mysql-connector-java'
-
-    compile 'com.github.fakemongo:fongo'
-
-    testCompile 'javax.el:el-api'
-
-    springAgent 'org.springframework:spring-instrument'
-
-    queryDslTool 'com.mysema.querydsl:querydsl-apt'
-}
-
-task generateSources {
-    def queryDslDir = new File(buildDir, 'generated-sources/java')
-    def queryDslGenerated = new File(buildDir, 'query-dsl-generated.txt')
-    sourceSets.main.java.srcDirs += queryDslDir
-    inputs.files(sourceSets.main.java.srcDirs)
-    outputs.file(queryDslGenerated)
-    doLast {
-        if (!queryDslDir.exists()) {
-            queryDslDir.mkdirs()
-        }
-        def classPathStr = (configurations.queryDslTool + sourceSets.main.runtimeClasspath).asPath
-        ant {
-            javac(classpath: classPathStr, includes: 'org/springframework/data/demo/data/**', includeantruntime: false) {
-                sourceSets.main.java.srcDirs.each {
-                    if (it != queryDslDir) {
-                        src(path: it.path)
-                    }
-                }
-                compilerarg value: '-proc:only'
-                compilerarg value: '-processor'
-                compilerarg value: 'com.mysema.query.apt.QuerydslAnnotationProcessor'
-                compilerarg value: '-s'
-                compilerarg value: queryDslDir.path
-            }
-            touch(file: queryDslGenerated)
-            echo(message: 'Generated QueryDSL Helpers')
+    eclipse {
+        classpath {
+            downloadSources = true
         }
     }
-}
-
-compileJava.dependsOn generateSources
-
-task cleanTestJpa(type: Delete) {
-    delete 'test-sd.h2.db'
-    delete 'test-sd.trace.db'
-}
-
-cleanTest.dependsOn cleanTestJpa
-
-
-test {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'jpa-hibernate'
-    testLogging.showStandardStreams = true
-}
-
-task testMongo(type: Test, dependsOn: [classes, testClasses]) {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'mongo'
-    testLogging.showStandardStreams = true
-}
-
-task testElasticSearch(type: Test, dependsOn: [classes, testClasses]) {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'elasticsearch'
-    testLogging.showStandardStreams = true
-}
-
-task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'couchbase'
-    testLogging.showStandardStreams = true
-}
-
-check.dependsOn testMongo
-// check.dependsOn testElasticSearch
-// check.dependsOn testCouchbase
-
-eclipse {
-    classpath {
-        downloadSources = true
+    idea {
+        module {
+            downloadSources = true
+        }
     }
-}
-idea {
-    module {
-        downloadSources = true
-    }
+
 }
 
 task wrapper(type: Wrapper) {
