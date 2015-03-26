@@ -85,7 +85,8 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public List<UserInfo> listActiveUsersInGroup(String groupName) {
         logger.info("listActiveUsersInGroup:" + groupName);
         List<UserInfo> userList = new ArrayList<UserInfo>();
-        Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName).and(groupMember.enabled.eq(Boolean.TRUE)),
+        GroupInfo group = groupRepository.findByGroupName(groupName);
+        Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.eq(group).and(groupMember.enabled.eq(Boolean.TRUE)),
                 groupMember.member.userId.desc());
         for (GroupMember member : members) {
             userList.add(member.getMember());
@@ -103,8 +104,9 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public List<UserInfo> listAllUsersInGroup(String groupName) {
         logger.info("listAllUsersInGroup:" + groupName);
+        GroupInfo group = groupRepository.findByGroupName(groupName);
         List<UserInfo> users = new ArrayList<UserInfo>();
-        Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.groupName.eq(groupName));
+        Iterable<GroupMember> members = memberRepository.findAll(groupMember.memberOfgroup.eq(group));
         for (GroupMember member : members) {
             users.add(member.getMember());
         }
@@ -116,7 +118,8 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public List<GroupInfo> listGroupsForUser(String userId) {
         logger.info("listGroupsForUser:" + userId);
         List<GroupInfo> groups = new ArrayList<GroupInfo>();
-        Iterable<GroupMember> members = memberRepository.findAll(groupMember.member.userId.eq(userId).and(groupMember.enabled.eq(Boolean.TRUE)));
+        UserInfo user = userRepository.findByUserId(userId);
+        Iterable<GroupMember> members = memberRepository.findAll(groupMember.member.eq(user).and(groupMember.enabled.eq(Boolean.TRUE)));
         for (GroupMember member : members) {
             groups.add(member.getMemberOfgroup());
         }

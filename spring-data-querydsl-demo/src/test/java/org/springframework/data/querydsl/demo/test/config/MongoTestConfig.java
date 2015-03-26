@@ -25,17 +25,19 @@ import java.util.List;
 public class MongoTestConfig extends AbstractMongoConfiguration {
     protected static Logger logger = LoggerFactory.getLogger(MongoTestConfig.class);
 
-    protected String databaseName = "sd";
-
     @Value("${mongo.url}")
     protected String url;
 
     @Override
     protected String getDatabaseName() {
         logger.info("getDatabaseName");
-        return databaseName;
+        return "sd";
     }
 
+    @Override
+    protected String getMappingBasePackage() {
+        return org.springframework.data.querydsl.demo.data.AuditEntry.class.getPackage().getName();
+    }
     @Override
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {

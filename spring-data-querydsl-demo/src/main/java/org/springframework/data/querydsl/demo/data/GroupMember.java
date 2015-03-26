@@ -9,6 +9,7 @@ import java.math.BigInteger;
 
 @Entity
 @QueryEntity
+@org.springframework.data.mongodb.core.mapping.Document
 public class GroupMember {
     @NotNull
     private Boolean enabled;
@@ -25,6 +26,7 @@ public class GroupMember {
 
     @NotNull
     @ManyToOne
+    @DBRef
     private GroupInfo memberOfgroup;
 
     public GroupMember() {

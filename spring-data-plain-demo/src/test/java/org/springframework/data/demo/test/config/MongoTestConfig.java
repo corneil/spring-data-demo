@@ -44,6 +44,11 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     }
 
     @Override
+    protected String getMappingBasePackage() {
+        return org.springframework.data.demo.data.AuditEntry.class.getPackage().getName();
+    }
+
+    @Override
     @Bean
     public Mongo mongo() throws Exception {
         logger.warn("*** Using Fake Mongo ***");

@@ -79,7 +79,7 @@ dependencies {
     testCompile 'com.h2database:h2'
     testCompile 'mysql:mysql-connector-java'
 
-    compile 'com.github.fakemongo:fongo'
+    testCompile 'com.github.fakemongo:fongo'
 
     testCompile 'javax.el:el-api'
 
