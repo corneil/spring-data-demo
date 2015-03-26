@@ -7,15 +7,15 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom 'io.spring.platform:platform-bom:' + springIoPlatformVersion
         mavenBom 'org.springframework.data:spring-data-releasetrain:' + springDataReleaseTrain
+        mavenBom 'io.spring.platform:platform-bom:' + springIoPlatformVersion
     }
     dependencies {
         dependency 'com.h2database:h2:1.4.185'
         dependency 'mysql:mysql-connector-java:5.1.34'
         dependency 'com.github.fakemongo:fongo:1.6.2'
         dependency 'javax.el:el-api:2.2'
-        dependency 'org.mongodb:mongo-java-driver:2.13.0'
+        // dependency 'org.mongodb:mongo-java-driver:2.13.0'
 
     }
 }
