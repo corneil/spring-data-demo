@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Document(indexName = "userinfo")
 @org.springframework.data.mongodb.core.mapping.Document
 public class UserInfo {
     @Temporal(TemporalType.DATE)

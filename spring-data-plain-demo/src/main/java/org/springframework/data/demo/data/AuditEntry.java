@@ -3,7 +3,6 @@ package org.springframework.data.demo.data;
 //~--- non-JDK imports --------------------------------------------------------
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.*;
@@ -20,7 +19,6 @@ import java.util.List;
  * Created by corneil on 3/28/14.
  */
 @Entity
-@Document(indexName = "auditentry")
 @org.springframework.data.mongodb.core.mapping.Document
 public class AuditEntry {
     @Id

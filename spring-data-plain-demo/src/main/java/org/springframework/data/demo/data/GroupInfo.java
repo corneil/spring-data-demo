@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -9,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Document(indexName = "groupinfo")
 @org.springframework.data.mongodb.core.mapping.Document
 public class GroupInfo {
     @NotNull

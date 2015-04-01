@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.Entity;
@@ -13,7 +12,6 @@ import javax.validation.constraints.NotNull;
  * Created by corneil on 3/28/14.
  */
 @Entity
-@Document(indexName = "auditinfo")
 public class AuditInfo {
     @Id
     @GeneratedValue(generator = "system-uuid")

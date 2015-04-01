@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Document(indexName = "groupmember")
 @org.springframework.data.mongodb.core.mapping.Document
 public class GroupMember {
     @NotNull

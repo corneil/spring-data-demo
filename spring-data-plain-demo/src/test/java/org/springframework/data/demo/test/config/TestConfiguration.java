@@ -11,7 +11,7 @@ import javax.annotation.PostConstruct;
 
 
 @Configuration
-@Import({AppConfig.class, JpaHibernateConfig.class, MongoTestConfig.class, CouchbaseConfig.class, ElasticSearchConfig.class})
+@Import({AppConfig.class, JpaHibernateConfig.class, MongoTestConfig.class, CouchbaseConfig.class})
 @ImportResource({"classpath:META-INF/spring/repo-populate.xml"})
 public class TestConfiguration {
     @Autowired

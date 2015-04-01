@@ -10,18 +10,10 @@ The project provides a demonstration for using the following:
   * [QueryDSL](http://www.querydsl.com)
   * [Fongo](https://github.com/fakemongo)
   
-The project includes metadata for SpringSource Tool Suite.
 
 The default JPA configuration uses embedded H2.
 
-The MongoConfig has been separated so the [Fongo](https://github.com/fakemongo) can be used during unit tests.
-
-`mongo.fake=true` in `database.properties` will determine if Fongo is used.
-
-If you want to use an actual mongo server to the following:
-
-  * Create the MongoDB database.
-  * Update `src/main/resources/META-INF/spring/database.properties` to match the MongoDB instances you want to connect to.
+The Mongo config uses [Fongo](https://github.com/fakemongo) for embedded MongoDB functionality.
 
 
 The project build has been converted to Gradle.

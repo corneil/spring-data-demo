@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -14,7 +13,6 @@ import java.util.Date;
  */
 
 @Entity
-@Document(indexName = "locationupdate")
 @org.springframework.data.mongodb.core.mapping.Document
 public class LocationUpdate {
     @Id

@@ -1,7 +1,6 @@
 package org.springframework.data.demo.data;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 import javax.persistence.Column;
@@ -14,7 +13,6 @@ import javax.validation.constraints.NotNull;
  * @author Corneil du Plessis
  */
 @Entity
-@Document(indexName = "deviceinfo")
 @org.springframework.data.mongodb.core.mapping.Document
 public class DeviceInfo {
     @Id

@@ -15,7 +15,9 @@ dependencyManagement {
         dependency 'mysql:mysql-connector-java:5.1.34'
         dependency 'com.github.fakemongo:fongo:1.6.2'
         dependency 'javax.el:el-api:2.2'
-        // dependency 'org.mongodb:mongo-java-driver:2.13.0'
+        dependency 'org.mongodb:mongo-java-driver:2.13.0'
+        // dependency 'org.mongodb:mongo-java-driver:3.0.0-rc1'
+
 
     }
 }

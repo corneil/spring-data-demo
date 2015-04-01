@@ -23,7 +23,6 @@ dependencies {
     compile 'org.springframework.data:spring-data-jpa'
     compile 'org.springframework.data:spring-data-mongodb'
     compile 'org.springframework.data:spring-data-couchbase'
-    compile 'org.springframework.data:spring-data-elasticsearch'
 
     compile 'org.springframework:spring-context'
     compile 'org.springframework:spring-aop'
@@ -100,11 +99,6 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
     testLogging.showStandardStreams = true
 }
 
-task testElasticSearch(type: Test, dependsOn: [classes, testClasses]) {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'elasticsearch'
-    testLogging.showStandardStreams = true
-}
 
 task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
