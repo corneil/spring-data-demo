@@ -1,3 +1,6 @@
+plugins {
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.3"
+}
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
@@ -17,7 +20,6 @@ sourceSets {
 }
 
 configurations {
-    queryDslTool
     springAgent
 }
 
@@ -85,41 +87,19 @@ dependencies {
 
     springAgent 'org.springframework:spring-instrument'
 
-    queryDslTool 'com.mysema.querydsl:querydsl-apt'
 }
 
-task generateSources {
-    def queryDslDir = new File(buildDir, 'generated-sources/java')
-    def queryDslGenerated = new File(buildDir, 'query-dsl-generated.txt')
-    sourceSets.main.java.srcDirs += queryDslDir
-    inputs.files(sourceSets.main.java.srcDirs)
-    outputs.file(queryDslGenerated)
-    doLast {
-        if (!queryDslDir.exists()) {
-            queryDslDir.mkdirs()
-        }
-        def classPathStr = (configurations.queryDslTool + sourceSets.main.runtimeClasspath).asPath
-        ant {
-            javac(classpath: classPathStr, includes: 'org/springframework/data/querydsl/demo/data/**', includeantruntime: false) {
-                sourceSets.main.java.srcDirs.each {
-                    if (it != queryDslDir) {
-                        src(path: it.path)
-                    }
-                }
-                compilerarg value: '-proc:only'
-                compilerarg value: '-processor'
-                compilerarg value: 'com.mysema.query.apt.QuerydslAnnotationProcessor'
-                compilerarg value: '-s'
-                compilerarg value: queryDslDir.path
-            }
-            touch(file: queryDslGenerated)
-            echo(message: 'Generated QueryDSL Helpers')
-        }
-    }
+def queryDslDir = new File(buildDir, 'generated-sources/java')
+querydsl {
+    querydslSourcesDir = queryDslDir
+    library = 'com.mysema.querydsl:querydsl-apt'
+    querydslDefault = true
+}
+task deleteSources(type: Delete) {
+    delete queryDslDir
 }
 
-compileJava.dependsOn generateSources
-
+clean.dependsOn deleteSources
 task cleanTestJpa(type: Delete) {
     delete 'test-sd.h2.db'
     delete 'test-sd.trace.db'
@@ -131,14 +111,29 @@ cleanTest.dependsOn cleanTestJpa
 test {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'spring.profiles.active', 'jpa-hibernate'
-    testLogging.showStandardStreams = true
+    if (logger.isInfoEnabled()) {
+        testLogging.showStandardStreams = true
+    }
 }
 
 task testMongo(type: Test, dependsOn: [classes, testClasses]) {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'spring.profiles.active', 'mongo'
-    testLogging.showStandardStreams = true
+    if (logger.isInfoEnabled()) {
+        testLogging.showStandardStreams = true
+    }
 }
 
 check.dependsOn testMongo
 
+eclipse {
+    classpath {
+        downloadSources = true
+    }
+}
+idea {
+    module {
+        generatedSourceDirs += file(queryDslDir)
+        downloadSources = true
+    }
+}
