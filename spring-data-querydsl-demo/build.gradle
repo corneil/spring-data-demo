@@ -135,5 +135,13 @@ idea {
     module {
         generatedSourceDirs += file(queryDslDir)
         downloadSources = true
+        iml {
+            beforeMerged { module ->
+                module.excludeFolders.clear()
+            }
+            whenMerged { module ->
+                module.excludeFolders.clear()
+            }
+        }
     }
 }
