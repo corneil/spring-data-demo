@@ -13,15 +13,11 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author Corneil du Plessis
- */
 @Service
 @Transactional
 @Validated
 public class AuditServiceImpl implements AuditService {
     private static Logger logger = LoggerFactory.getLogger(AuditServiceImpl.class);
-
     @Autowired
     protected AuditEntryRepository repository;
 
@@ -33,18 +29,17 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public void save(@Valid AuditEntry entry) {
-        logger.info("save:" + entry);
-        repository.save(entry);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public List<AuditEntry> find(String auditType, Date startDate, Date endDate) {
         logger.info("find:" + auditType + ":" + startDate + ":" + endDate);
         return repository.findByAuditTypeAndAuditTimeBetweenOrderByAuditTimeDesc(auditType, startDate, endDate);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public void save(@Valid AuditEntry entry) {
+        logger.info("save:" + entry);
+        repository.save(entry);
+    }
 }

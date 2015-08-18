@@ -4,7 +4,13 @@ import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.Date;
@@ -16,22 +22,17 @@ public class UserInfo {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(style = "M-")
     private Date dateOfBirth;
-
     private String emailAddress;
-
     @NotNull
     private String fullName;
-
     // Using a string id for use in both MongoDB and JPA.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
-
     @NotNull
     @Column(unique = true)
     @Indexed(unique = true)
     private String userId;
-
 
     public UserInfo() {
         super();
@@ -47,36 +48,36 @@ public class UserInfo {
         return this.dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getEmailAddress() {
         return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
     }
 
     public String getFullName() {
         return this.fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public BigInteger getId() {
         return this.id;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
     public String getUserId() {
         return this.userId;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 
     public void setUserId(String userId) {

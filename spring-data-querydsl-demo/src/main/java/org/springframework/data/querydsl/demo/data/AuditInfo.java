@@ -10,22 +10,16 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
-/**
- * Created by corneil on 3/28/14.
- */
 @Entity
 @QueryEntity
 public class AuditInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
-
     @Indexed(unique = false)
     @NotNull
     private String name;
-
     private String beforeValue;
-
     private String afterValue;
 
     public AuditInfo(String name, String beforeValue, String afterValue) {
@@ -42,36 +36,41 @@ public class AuditInfo {
         this.afterValue = afterValue;
     }
 
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getBeforeValue() {
-        return beforeValue;
-    }
-
-    public void setBeforeValue(String beforeValue) {
-        this.beforeValue = beforeValue;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AuditInfo auditInfo = (AuditInfo) o;
+        if (afterValue != null ? !afterValue.equals(auditInfo.afterValue) : auditInfo.afterValue != null) {
+            return false;
+        }
+        if (beforeValue != null ? !beforeValue.equals(auditInfo.beforeValue) : auditInfo.beforeValue != null) {
+            return false;
+        }
+        if (name != null ? !name.equals(auditInfo.name) : auditInfo.name != null) {
+            return false;
+        }
+        return true;
     }
 
     public String getAfterValue() {
         return afterValue;
     }
 
-    public void setAfterValue(String afterValue) {
-        this.afterValue = afterValue;
+    public String getBeforeValue() {
+        return beforeValue;
+    }
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -82,28 +81,20 @@ public class AuditInfo {
         return result;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    public void setAfterValue(String afterValue) {
+        this.afterValue = afterValue;
+    }
 
-        AuditInfo auditInfo = (AuditInfo) o;
+    public void setBeforeValue(String beforeValue) {
+        this.beforeValue = beforeValue;
+    }
 
-        if (afterValue != null ? !afterValue.equals(auditInfo.afterValue) : auditInfo.afterValue != null) {
-            return false;
-        }
-        if (beforeValue != null ? !beforeValue.equals(auditInfo.beforeValue) : auditInfo.beforeValue != null) {
-            return false;
-        }
-        if (name != null ? !name.equals(auditInfo.name) : auditInfo.name != null) {
-            return false;
-        }
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
 
-        return true;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

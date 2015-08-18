@@ -1,6 +1,5 @@
 package org.springframework.data.querydsl.demo.test;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,6 +45,32 @@ public class AuditEntryTest {
         return null;
     }
 
+    private void createAuditEntries() {
+        assertNotNull(auditService);
+        AuditEntry entry = new AuditEntry(new Date(), "User", null);
+        try {
+            auditService.save(entry);
+            fail("Expected constraint violations");
+        } catch (Throwable x) {
+            ConstraintViolationException cv = (ConstraintViolationException) findCause(x, ConstraintViolationException.class);
+            assertNotNull("Expected ConstraintViolationException:" + x, cv);
+            if (cv != null) {
+                for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
+                    logger.info("Constraint:" + v);
+                    logger.info("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
+                }
+                assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
+            }
+        }
+        entry = new AuditEntry(new Date(), "User", "create");
+        entry.getAuditInfo().add(new AuditInfo("name", "joe"));
+        entry.getAuditInfo().add(new AuditInfo("surname", "soap"));
+        auditService.save(entry);
+        entry = new AuditEntry(new Date(), "User", "update");
+        entry.getAuditInfo().add(new AuditInfo("name", "joe", "john"));
+        auditService.save(entry);
+    }
+
     @Before
     public void setup() {
         System.setProperty("DEBUG.MONGO", "true");
@@ -74,31 +99,5 @@ public class AuditEntryTest {
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
         logger.info(String.format("Test duration:%9.2f\n", duration));
-    }
-
-    private void createAuditEntries() {
-        assertNotNull(auditService);
-        AuditEntry entry = new AuditEntry(new Date(), "User", null);
-        try {
-            auditService.save(entry);
-            fail("Expected constraint violations");
-        } catch (Throwable x) {
-            ConstraintViolationException cv = (ConstraintViolationException) findCause(x, ConstraintViolationException.class);
-            assertNotNull("Expected ConstraintViolationException:" + x, cv);
-            if (cv != null) {
-                for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
-                    logger.info("Constraint:" + v);
-                    logger.info("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
-                }
-                assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
-            }
-        }
-        entry = new AuditEntry(new Date(), "User", "create");
-        entry.getAuditInfo().add(new AuditInfo("name", "joe"));
-        entry.getAuditInfo().add(new AuditInfo("surname", "soap"));
-        auditService.save(entry);
-        entry = new AuditEntry(new Date(), "User", "update");
-        entry.getAuditInfo().add(new AuditInfo("name", "joe", "john"));
-        auditService.save(entry);
     }
 }

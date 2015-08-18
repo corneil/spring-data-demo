@@ -29,19 +29,14 @@ import javax.sql.DataSource;
 public class JpaHibernateConfig implements TransactionManagementConfigurer {
     @Value("${database.driverClassName}")
     protected String driverClassName;
-
     @Value("${database.url}")
     protected String url;
-
     @Value("${database.username}")
     protected String username;
-
     @Value("${database.password}")
     protected String password;
-
     @Value("${database.type}")
     protected String databaseType;
-
     @Value("${database.showSql}")
     protected String showSql;
 
@@ -50,6 +45,23 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory());
         return jpaTransactionManager;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnReturn(true);
+        dataSource.setTestWhileIdle(true);
+        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
+        dataSource.setNumTestsPerEvictionRun(3);
+        dataSource.setMinEvictableIdleTimeMillis(1800000);
+        dataSource.setValidationQuery("SELECT 1");
+        return dataSource;
     }
 
     @Bean(name = "entityManagerFactory")
@@ -80,20 +92,8 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
     }
 
     @Bean
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setTestOnBorrow(true);
-        dataSource.setTestOnReturn(true);
-        dataSource.setTestWhileIdle(true);
-        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
-        dataSource.setNumTestsPerEvictionRun(3);
-        dataSource.setMinEvictableIdleTimeMillis(1800000);
-        dataSource.setValidationQuery("SELECT 1");
-        return dataSource;
+    public HibernateExceptionTranslator hibernateExceptionTranslator() {
+        return new HibernateExceptionTranslator();
     }
 
     @Bean(name = "jpaVendorAdapter")
@@ -114,10 +114,5 @@ public class JpaHibernateConfig implements TransactionManagementConfigurer {
         }
         jpaVendorAdapter.setGenerateDdl(true);
         return jpaVendorAdapter;
-    }
-
-    @Bean
-    public HibernateExceptionTranslator hibernateExceptionTranslator() {
-        return new HibernateExceptionTranslator();
     }
 }

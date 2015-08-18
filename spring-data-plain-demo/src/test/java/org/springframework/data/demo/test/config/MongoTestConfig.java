@@ -1,7 +1,11 @@
 package org.springframework.data.demo.test.config;
 
 import com.github.fakemongo.Fongo;
-import com.mongodb.*;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +28,6 @@ import java.util.List;
 @PropertySource("classpath:META-INF/spring/database.properties")
 public class MongoTestConfig extends AbstractMongoConfiguration {
     protected static Logger logger = LoggerFactory.getLogger(MongoTestConfig.class);
-
     @Value("${mongo.url}")
     protected String url;
 
@@ -32,15 +35,6 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     protected String getDatabaseName() {
         logger.info("getDatabaseName");
         return "sd";
-    }
-
-    @Override
-    @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
-        logger.info("mongoTemplate");
-        MongoTemplate template = super.mongoTemplate();
-        template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
-        return template;
     }
 
     @Override
@@ -56,6 +50,16 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
         return fakeMongo;
     }
 
+    @Override
+    @Bean
+    public MongoTemplate mongoTemplate() throws Exception {
+        logger.info("mongoTemplate");
+        MongoTemplate template = super.mongoTemplate();
+        template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
+        return template;
+    }
+
+    @SuppressWarnings("deprecation")
     private static class FakeMongo extends Mongo {
         private Fongo fongo;
 
@@ -64,13 +68,13 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
         }
 
         @Override
-        public DB getDB(String dbname) {
-            return fongo.getDB(dbname);
+        public void dropDatabase(String dbName) {
+            fongo.dropDatabase(dbName);
         }
 
         @Override
-        public Collection<DB> getUsedDatabases() {
-            return fongo.getUsedDatabases();
+        public DB getDB(String dbname) {
+            return fongo.getDB(dbname);
         }
 
         @Override
@@ -78,17 +82,17 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
             return fongo.getDatabaseNames();
         }
 
-        @Override
-        public void dropDatabase(String dbName) {
-            fongo.dropDatabase(dbName);
+        public MongoClient getMongo() {
+            return fongo.getMongo();
         }
 
         public ServerAddress getServerAddress() {
             return fongo.getServerAddress();
         }
 
-        public MongoClient getMongo() {
-            return fongo.getMongo();
+        @Override
+        public Collection<DB> getUsedDatabases() {
+            return fongo.getUsedDatabases();
         }
 
         @Override

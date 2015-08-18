@@ -7,9 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by corneil on 3/28/14.
- */
 @Repository
 public interface AuditEntryRepository extends CrudRepository<AuditEntry, String> {
     List<AuditEntry> findByAuditTimeBetweenOrderByAuditTimeDesc(Date startDate, Date endDate);

@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.springframework.data.querydsl.demo.data.QGroupMember.groupMember;
+import static org.springframework.data.querydsl.demo.data.QGroupMember.*;
 
 @Service
 @Transactional
@@ -28,10 +28,8 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     private static Logger logger = LoggerFactory.getLogger(UserGroupDataServiceImpl.class);
     @Autowired
     protected GroupRepository groupRepository;
-
     @Autowired
     protected GroupMemberRepository memberRepository;
-
     @Autowired
     protected UserRepository userRepository;
 
@@ -101,6 +99,15 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     }
 
     @Override
+    public List<UserInfo> listAllUsers() {
+        List<UserInfo> result = new ArrayList<UserInfo>();
+        for (UserInfo info : userRepository.findAll()) {
+            result.add(info);
+        }
+        return result;
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<UserInfo> listAllUsersInGroup(String groupName) {
         logger.info("listAllUsersInGroup:" + groupName);
@@ -145,14 +152,5 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     public void saveUserInfo(@Valid UserInfo userInfo) {
         logger.info("saveUserInfo:" + userInfo);
         userRepository.save(userInfo);
-    }
-
-    @Override
-    public List<UserInfo> listAllUsers() {
-        List<UserInfo> result = new ArrayList<UserInfo>();
-        for (UserInfo info : userRepository.findAll()) {
-            result.add(info);
-        }
-        return result;
     }
 }

@@ -43,8 +43,40 @@ public class UserGroupDataServiceIntegrationTest {
         dob = makeDate("1977-7-7");
     }
 
-    private Date makeDate(String dateString) throws ParseException {
-        return new SimpleDateFormat(DateFormatUtils.ISO_DATE_FORMAT.getPattern()).parse(dateString);
+    private void createUsers() throws ParseException {
+        assertNotNull(dataService);
+        // Create Users
+        if (dataService.findUser("corneil") == null) {
+            UserInfo user = new UserInfo("corneil", "Corneil du Plessis");
+            user.setEmailAddress("corneil.duplessis@gmail.com");
+            user.setDateOfBirth(dob);
+            dataService.saveUserInfo(user);
+            // Assertions
+            assertNotNull(user.getId());
+            UserInfo corneil = dataService.findUser("corneil");
+            assertNotNull(corneil);
+            assertEquals("corneil", corneil.getUserId());
+            assertEquals("Corneil du Plessis", corneil.getFullName());
+            assertEquals(dob, corneil.getDateOfBirth());
+        }
+        if (dataService.findUser("joe") == null) {
+            UserInfo user = new UserInfo("joe", "Joe Soap");
+            user.setDateOfBirth(makeDate("1981-03-04"));
+            dataService.saveUserInfo(user);
+        }
+        // Create Groups
+        if (dataService.findGroup("groupOne") == null) {
+            UserInfo corneil = dataService.findUser("corneil");
+            assertNotNull(corneil);
+            GroupInfo group = new GroupInfo("groupOne", corneil);
+            dataService.saveGroupInfo(group);
+        }
+        if (dataService.findGroup("groupTwo") == null) {
+            UserInfo corneil = dataService.findUser("corneil");
+            assertNotNull(corneil);
+            GroupInfo group = new GroupInfo("groupTwo", corneil);
+            dataService.saveGroupInfo(group);
+        }
     }
 
     @Before
@@ -55,6 +87,10 @@ public class UserGroupDataServiceIntegrationTest {
         if (pietPompies != null) {
             dataService.saveUserInfo(pietPompies);
         }
+    }
+
+    private Date makeDate(String dateString) throws ParseException {
+        return new SimpleDateFormat(DateFormatUtils.ISO_DATE_FORMAT.getPattern()).parse(dateString);
     }
 
     @Test
@@ -91,8 +127,6 @@ public class UserGroupDataServiceIntegrationTest {
             assertEquals(1, usersG2.size());
             usersG2 = dataService.listAllUsersInGroup("groupTwo");
             assertEquals(2, usersG2.size());
-
-
             boolean foundPiet = false;
             for (UserInfo info : dataService.listAllUsers()) {
                 logger.info(info.toString());
@@ -108,43 +142,6 @@ public class UserGroupDataServiceIntegrationTest {
             long endTime = System.currentTimeMillis();
             double duration = ((double) (endTime - startTime)) / 1000.0;
             logger.info(String.format("Test duration:%9.2f\n", duration));
-        }
-
-    }
-
-    private void createUsers() throws ParseException {
-        assertNotNull(dataService);
-        // Create Users
-        if (dataService.findUser("corneil") == null) {
-            UserInfo user = new UserInfo("corneil", "Corneil du Plessis");
-            user.setEmailAddress("corneil.duplessis@gmail.com");
-            user.setDateOfBirth(dob);
-            dataService.saveUserInfo(user);
-            // Assertions
-            assertNotNull(user.getId());
-            UserInfo corneil = dataService.findUser("corneil");
-            assertNotNull(corneil);
-            assertEquals("corneil", corneil.getUserId());
-            assertEquals("Corneil du Plessis", corneil.getFullName());
-            assertEquals(dob, corneil.getDateOfBirth());
-        }
-        if (dataService.findUser("joe") == null) {
-            UserInfo user = new UserInfo("joe", "Joe Soap");
-            user.setDateOfBirth(makeDate("1981-03-04"));
-            dataService.saveUserInfo(user);
-        }
-        // Create Groups
-        if (dataService.findGroup("groupOne") == null) {
-            UserInfo corneil = dataService.findUser("corneil");
-            assertNotNull(corneil);
-            GroupInfo group = new GroupInfo("groupOne", corneil);
-            dataService.saveGroupInfo(group);
-        }
-        if (dataService.findGroup("groupTwo") == null) {
-            UserInfo corneil = dataService.findUser("corneil");
-            assertNotNull(corneil);
-            GroupInfo group = new GroupInfo("groupTwo", corneil);
-            dataService.saveGroupInfo(group);
         }
     }
 }

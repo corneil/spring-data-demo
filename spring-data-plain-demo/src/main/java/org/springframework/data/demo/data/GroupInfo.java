@@ -4,7 +4,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,12 +18,10 @@ public class GroupInfo {
     @Indexed(unique = true)
     @Column(unique = true)
     private String groupName;
-
     @NotNull
     @ManyToOne
     @DBRef
     private UserInfo groupOwner;
-
     // Using a string id for use in both MongoDB and JPA.
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -40,20 +42,20 @@ public class GroupInfo {
         return this.groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
     public UserInfo getGroupOwner() {
         return this.groupOwner;
     }
 
-    public void setGroupOwner(UserInfo groupOwner) {
-        this.groupOwner = groupOwner;
-    }
-
     public String getId() {
         return this.id;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setGroupOwner(UserInfo groupOwner) {
+        this.groupOwner = groupOwner;
     }
 
     public void setId(String id) {

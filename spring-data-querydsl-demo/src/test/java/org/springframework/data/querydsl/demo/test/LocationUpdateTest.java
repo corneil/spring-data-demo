@@ -22,12 +22,9 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Criteria.*;
+import static org.springframework.data.mongodb.core.query.Query.*;
 
-/**
- * @author Corneil du Plessis
- */
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfiguration.class})
@@ -35,37 +32,10 @@ public class LocationUpdateTest {
     private static Logger logger = LoggerFactory.getLogger("tests");
     @Autowired
     protected LocationAndDeviceService locationAndDeviceService;
-
     @Autowired
     protected Environment environment;
-
     @Autowired
     protected ApplicationContext applicationContext;
-
-    @Before
-    public void setup() {
-        locationAndDeviceService.deleteAllData();
-    }
-
-    @Test
-    public void testLocationUpdates() {
-        long startTime = System.currentTimeMillis();
-        Date startDate = new Date();
-        DeviceInfo device1 = createDeviceAndLocations();
-        Date endDate = new Date();
-        List<LocationUpdate> locations = locationAndDeviceService.findLocations(device1.getDeviceId(), startDate, endDate);
-        for (LocationUpdate loc : locations) {
-            logger.debug("Loc:" + loc);
-        }
-        assertFalse("Expected locations", locations.isEmpty());
-        assertEquals(10, locations.size());
-        long endTime = System.currentTimeMillis();
-        double duration = ((double) (endTime - startTime)) / 1000.0;
-        logger.info(String.format("Test duration:%9.2f\n", duration));
-        if (environment.acceptsProfiles("mongo")) {
-            testFindMongoTemplate(device1, startDate, endDate, locations.size());
-        }
-    }
 
     private DeviceInfo createDeviceAndLocations() {
         Random rand = new Random();
@@ -89,6 +59,11 @@ public class LocationUpdateTest {
         return device1;
     }
 
+    @Before
+    public void setup() {
+        locationAndDeviceService.deleteAllData();
+    }
+
     private void testFindMongoTemplate(DeviceInfo device, Date startDate, Date endTime, final int expected) {
         try {
             MongoTemplate mongoTemplate = applicationContext.getBean(MongoTemplate.class);
@@ -101,6 +76,26 @@ public class LocationUpdateTest {
         } catch (Throwable x) {
             x.printStackTrace();
             fail(x.toString());
+        }
+    }
+
+    @Test
+    public void testLocationUpdates() {
+        long startTime = System.currentTimeMillis();
+        Date startDate = new Date();
+        DeviceInfo device1 = createDeviceAndLocations();
+        Date endDate = new Date();
+        List<LocationUpdate> locations = locationAndDeviceService.findLocations(device1.getDeviceId(), startDate, endDate);
+        for (LocationUpdate loc : locations) {
+            logger.debug("Loc:" + loc);
+        }
+        assertFalse("Expected locations", locations.isEmpty());
+        assertEquals(10, locations.size());
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        logger.info(String.format("Test duration:%9.2f\n", duration));
+        if (environment.acceptsProfiles("mongo")) {
+            testFindMongoTemplate(device1, startDate, endDate, locations.size());
         }
     }
 }

@@ -4,13 +4,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-
-/**
- * @author Corneil du Plessis
- */
 
 @Entity
 @org.springframework.data.mongodb.core.mapping.Document
@@ -18,72 +19,66 @@ public class LocationUpdate {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-
     private String id;
-
     @Indexed(unique = false)
     private double latX;
-
     @Indexed(unique = false)
     private double latY;
-
     private String locDetail;
-
     @Indexed(unique = false)
     @NotNull
     private Date locTime;
-
     @DBRef
     @NotNull
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private DeviceInfo device;
 
-    public Date getLocTime() {
-        return locTime;
-    }
-
-    public void setLocTime(Date locTime) {
-        this.locTime = locTime;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public double getLatX() {
-        return latX;
-    }
-
-    public void setLatX(double latX) {
-        this.latX = latX;
-    }
-
-    public double getLatY() {
-        return latY;
-    }
-
-    public void setLatY(double latY) {
-        this.latY = latY;
-    }
-
-    public String getLocDetail() {
-        return locDetail;
-    }
-
-    public void setLocDetail(String locDetail) {
-        this.locDetail = locDetail;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        LocationUpdate that = (LocationUpdate) o;
+        if (Double.compare(that.latX, latX) != 0) {
+            return false;
+        }
+        if (Double.compare(that.latY, latY) != 0) {
+            return false;
+        }
+        if (!device.equals(that.device)) {
+            return false;
+        }
+        if (!locTime.equals(that.locTime)) {
+            return false;
+        }
+        return true;
     }
 
     public DeviceInfo getDevice() {
         return device;
     }
 
-    public void setDevice(DeviceInfo device) {
-        this.device = device;
+    public String getId() {
+        return id;
+    }
+
+    public double getLatX() {
+        return latX;
+    }
+
+    public double getLatY() {
+        return latY;
+    }
+
+    public String getLocDetail() {
+        return locDetail;
+    }
+
+    public Date getLocTime() {
+        return locTime;
     }
 
     @Override
@@ -99,31 +94,28 @@ public class LocationUpdate {
         return result;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+    public void setDevice(DeviceInfo device) {
+        this.device = device;
+    }
 
-        LocationUpdate that = (LocationUpdate) o;
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        if (Double.compare(that.latX, latX) != 0) {
-            return false;
-        }
-        if (Double.compare(that.latY, latY) != 0) {
-            return false;
-        }
-        if (!device.equals(that.device)) {
-            return false;
-        }
-        if (!locTime.equals(that.locTime)) {
-            return false;
-        }
+    public void setLatX(double latX) {
+        this.latX = latX;
+    }
 
-        return true;
+    public void setLatY(double latY) {
+        this.latY = latY;
+    }
+
+    public void setLocDetail(String locDetail) {
+        this.locDetail = locDetail;
+    }
+
+    public void setLocTime(Date locTime) {
+        this.locTime = locTime;
     }
 
     @Override
@@ -138,5 +130,4 @@ public class LocationUpdate {
         sb.append('}');
         return sb.toString();
     }
-
 }

@@ -1,5 +1,12 @@
-plugins {
-    id "io.spring.dependency-management" version "0.4.1.RELEASE"
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+    }
 }
 
 repositories {
@@ -9,15 +16,14 @@ repositories {
     maven {
         url 'http://repo.spring.io/repo'
     }
-    maven {
-        url 'https://repo.spring.io/libs-milestone'
-    }
 }
 
 group = 'com.tsctech.springdata.demo'
 
 
 description = 'Spring Data Demo'
+
+defaultTasks 'build'
 
 subprojects {
     apply plugin: 'java'
@@ -26,9 +32,6 @@ subprojects {
     apply plugin: 'idea'
     version = '1.0.BUILD-SNAPSHOT'
     apply from: new File(rootProject.projectDir, 'dependencies.gradle')
-
-    sourceCompatibility = 7
-    targetCompatibility = 7
 
     eclipse {
         classpath {
@@ -44,5 +47,5 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.6'
 }

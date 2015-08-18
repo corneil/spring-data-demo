@@ -20,13 +20,13 @@ public class AppConfig {
         return pc;
     }
 
-    @Bean(name = "validator")
-    public LocalValidatorFactoryBean validatorFactoryBean() {
-        return new LocalValidatorFactoryBean();
-    }
-
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
         return new MethodValidationPostProcessor();
+    }
+
+    @Bean(name = "validator")
+    public LocalValidatorFactoryBean validatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
     }
 }

@@ -14,17 +14,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.data.querydsl.demo.data.QAuditEntry.auditEntry;
+import static org.springframework.data.querydsl.demo.data.QAuditEntry.*;
 
-/**
- * @author Corneil du Plessis
- */
 @Service
 @Transactional
 @Validated
 public class AuditServiceImpl implements AuditService {
     private static Logger logger = LoggerFactory.getLogger(AuditServiceImpl.class);
-
     @Autowired
     protected AuditEntryRepository repository;
 
@@ -33,14 +29,6 @@ public class AuditServiceImpl implements AuditService {
     public void deleteAllData() {
         logger.info("deleteAllData");
         repository.deleteAll();
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    @Transactional
-    public void save(@Valid AuditEntry entry) {
-        logger.info("save:" + entry);
-        repository.save(entry);
     }
 
     @Override
@@ -54,5 +42,13 @@ public class AuditServiceImpl implements AuditService {
             result.add(e);
         }
         return result;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public void save(@Valid AuditEntry entry) {
+        logger.info("save:" + entry);
+        repository.save(entry);
     }
 }

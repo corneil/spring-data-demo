@@ -27,25 +27,10 @@ public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
     private final static Logger logger = LoggerFactory.getLogger(CouchbaseConfig.class);
     @Value("${couchbase.host}")
     protected String host;
-
     @Value("${couchbase.password}")
     protected String password;
     @Value("${couchbase.port}")
     protected String port;
-
-    @Override
-    public CouchbaseClient couchbaseClient() throws Exception {
-        CouchbaseClient client = super.couchbaseClient();
-
-        return client;
-    }
-
-    @Override
-    public CouchbaseTemplate couchbaseTemplate() throws Exception {
-        CouchbaseTemplate template = super.couchbaseTemplate();
-        template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
-        return template;
-    }
 
     @Override
     protected List<String> bootstrapHosts() {
@@ -56,6 +41,19 @@ public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
             hosts.add(tokens.nextToken());
         }
         return hosts;
+    }
+
+    @Override
+    public CouchbaseClient couchbaseClient() throws Exception {
+        CouchbaseClient client = super.couchbaseClient();
+        return client;
+    }
+
+    @Override
+    public CouchbaseTemplate couchbaseTemplate() throws Exception {
+        CouchbaseTemplate template = super.couchbaseTemplate();
+        template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
+        return template;
     }
 
     @Override

@@ -8,5 +8,4 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({AuditEntryTest.class, LocationUpdateTest.class,
         UserGroupDataServiceIntegrationTest.class})
 public class AllTests {
-
 }

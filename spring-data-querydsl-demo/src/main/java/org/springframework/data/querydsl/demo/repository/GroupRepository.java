@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
 
-
 @Repository
 public interface GroupRepository extends QueryDslPredicateExecutor<GroupInfo>, CrudRepository<GroupInfo, BigInteger> {
     GroupInfo findByGroupName(String name);

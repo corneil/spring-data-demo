@@ -9,29 +9,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-/**
- * @author Corneil du Plessis
- */
 @Entity
 @org.springframework.data.mongodb.core.mapping.Document
 public class DeviceInfo {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-
     private String id;
-
     @NotNull
     @Indexed(unique = true)
     @Column(unique = true)
     private String deviceId;
-
     private String deviceName;
-
-    @Override
-    public int hashCode() {
-        return deviceId.hashCode();
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -41,14 +30,40 @@ public class DeviceInfo {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         DeviceInfo that = (DeviceInfo) o;
-
         if (!deviceId.equals(that.deviceId)) {
             return false;
         }
-
         return true;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return deviceId.hashCode();
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -59,29 +74,5 @@ public class DeviceInfo {
         sb.append(", deviceName='").append(deviceName).append('\'');
         sb.append('}');
         return sb.toString();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getDeviceName() {
-        return deviceName;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
     }
 }

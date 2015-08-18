@@ -9,7 +9,6 @@ import org.springframework.data.demo.config.AppConfig;
 
 import javax.annotation.PostConstruct;
 
-
 @Configuration
 @Import({AppConfig.class, JpaHibernateConfig.class, MongoTestConfig.class, CouchbaseConfig.class})
 @ImportResource({"classpath:META-INF/spring/repo-populate.xml"})
@@ -23,5 +22,4 @@ public class TestConfiguration {
             System.out.println("==== Active Profile:" + profile + " ====");
         }
     }
-
 }

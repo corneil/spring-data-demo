@@ -7,9 +7,6 @@ import org.springframework.data.querydsl.demo.data.UserInfo;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * @author Corneil du Plessis
- */
 public interface UserGroupDataService {
     // Added for testing
     public void deleteAllData();
@@ -26,9 +23,9 @@ public interface UserGroupDataService {
 
     public List<UserInfo> listActiveUsersInGroup(String groupName);
 
-    public List<UserInfo> listAllUsersInGroup(String groupName);
-
     public List<UserInfo> listAllUsers();
+
+    public List<UserInfo> listAllUsersInGroup(String groupName);
 
     public List<GroupInfo> listGroupsForUser(String userId);
 
@@ -37,5 +34,4 @@ public interface UserGroupDataService {
     public void saveGroupMember(@Valid GroupMember groupMember);
 
     public void saveUserInfo(@Valid UserInfo userInfo);
-
 }

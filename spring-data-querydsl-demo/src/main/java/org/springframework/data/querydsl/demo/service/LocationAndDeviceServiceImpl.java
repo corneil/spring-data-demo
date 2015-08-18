@@ -17,20 +17,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.springframework.data.querydsl.demo.data.QLocationUpdate.locationUpdate;
+import static org.springframework.data.querydsl.demo.data.QLocationUpdate.*;
 
-/**
- * @author Corneil du Plessis
- */
 @Service
 @Transactional
 @Validated
 public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     private final static Logger logger = LoggerFactory.getLogger(LocationAndDeviceServiceImpl.class);
-
     @Autowired
     protected LocationUpdateRepository locationUpdateRepository;
-
     @Autowired
     protected DeviceInfoRepository deviceInfoRepository;
 
@@ -44,24 +39,10 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
     }
 
     @Override
-    @Transactional
-    public void saveDevice(@Valid DeviceInfo device) {
-        logger.info("saveDevice:" + device);
-        deviceInfoRepository.save(device);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public DeviceInfo findDevice(String deviceId) {
         logger.info("findDevice:" + deviceId);
         return deviceInfoRepository.findByDeviceId(deviceId);
-    }
-
-    @Override
-    @Transactional
-    public void saveLocation(@Valid LocationUpdate locationUpdate) {
-        logger.debug("saveLocation:" + locationUpdate);
-        locationUpdateRepository.save(locationUpdate);
     }
 
     @Override
@@ -79,5 +60,19 @@ public class LocationAndDeviceServiceImpl implements LocationAndDeviceService {
             result.add(loc);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public void saveDevice(@Valid DeviceInfo device) {
+        logger.info("saveDevice:" + device);
+        deviceInfoRepository.save(device);
+    }
+
+    @Override
+    @Transactional
+    public void saveLocation(@Valid LocationUpdate locationUpdate) {
+        logger.debug("saveLocation:" + locationUpdate);
+        locationUpdateRepository.save(locationUpdate);
     }
 }

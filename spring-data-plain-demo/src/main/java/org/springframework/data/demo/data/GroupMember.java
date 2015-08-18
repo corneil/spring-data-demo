@@ -14,18 +14,15 @@ import javax.validation.constraints.NotNull;
 public class GroupMember {
     @NotNull
     private Boolean enabled;
-
     // Using a string id for use in both MongoDB and JPA.
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
-
     @NotNull
     @ManyToOne
     @DBRef
     private UserInfo member;
-
     @NotNull
     @ManyToOne
     @DBRef
@@ -46,28 +43,28 @@ public class GroupMember {
         return this.enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public String getId() {
         return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public UserInfo getMember() {
         return this.member;
     }
 
-    public void setMember(UserInfo groupMember) {
-        this.member = groupMember;
-    }
-
     public GroupInfo getMemberOfgroup() {
         return this.memberOfgroup;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setMember(UserInfo groupMember) {
+        this.member = groupMember;
     }
 
     public void setMemberOfgroup(GroupInfo memberOfgroup) {
