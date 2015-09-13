@@ -55,7 +55,7 @@ public class MongoTestConfig extends AbstractMongoConfiguration {
     public MongoTemplate mongoTemplate() throws Exception {
         logger.info("mongoTemplate");
         MongoTemplate template = super.mongoTemplate();
-        template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
+        template.setWriteConcern(WriteConcern.ACKNOWLEDGED);
         return template;
     }
 
