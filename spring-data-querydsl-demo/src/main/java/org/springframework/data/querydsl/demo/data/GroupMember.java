@@ -3,11 +3,7 @@ package org.springframework.data.querydsl.demo.data;
 import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
@@ -45,32 +41,51 @@ public class GroupMember {
         return this.enabled;
     }
 
-    public BigInteger getId() {
-        return this.id;
-    }
-
-    public UserInfo getMember() {
-        return this.member;
-    }
-
-    public GroupInfo getMemberOfgroup() {
-        return this.memberOfgroup;
-    }
-
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public BigInteger getId() {
+        return this.id;
     }
 
     public void setId(BigInteger id) {
         this.id = id;
     }
 
+    public UserInfo getMember() {
+        return this.member;
+    }
+
     public void setMember(UserInfo groupMember) {
         this.member = groupMember;
     }
 
+    public GroupInfo getMemberOfgroup() {
+        return this.memberOfgroup;
+    }
+
     public void setMemberOfgroup(GroupInfo memberOfgroup) {
         this.memberOfgroup = memberOfgroup;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = member.hashCode();
+        result = 31 * result + memberOfgroup.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        GroupMember that = (GroupMember) o;
+        if (!member.equals(that.member))
+            return false;
+        return memberOfgroup.equals(that.memberOfgroup);
     }
 
     @Override

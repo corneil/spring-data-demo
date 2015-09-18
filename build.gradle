@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+        classpath "io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE"
     }
 }
 
@@ -19,8 +19,6 @@ repositories {
 }
 
 group = 'com.tsctech.springdata.demo'
-
-
 description = 'Spring Data Demo'
 
 defaultTasks 'build'
@@ -43,9 +41,8 @@ subprojects {
             downloadSources = true
         }
     }
-
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.6'
+    gradleVersion = '2.7'
 }

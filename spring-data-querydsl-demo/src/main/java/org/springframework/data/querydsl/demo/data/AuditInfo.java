@@ -13,14 +13,14 @@ import java.math.BigInteger;
 @Entity
 @QueryEntity
 public class AuditInfo {
+    private String afterValue;
+    private String beforeValue;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
     @Indexed(unique = false)
     @NotNull
     private String name;
-    private String beforeValue;
-    private String afterValue;
 
     public AuditInfo(String name, String beforeValue, String afterValue) {
         this.name = name;
@@ -36,65 +36,51 @@ public class AuditInfo {
         this.afterValue = afterValue;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        AuditInfo auditInfo = (AuditInfo) o;
-        if (afterValue != null ? !afterValue.equals(auditInfo.afterValue) : auditInfo.afterValue != null) {
-            return false;
-        }
-        if (beforeValue != null ? !beforeValue.equals(auditInfo.beforeValue) : auditInfo.beforeValue != null) {
-            return false;
-        }
-        if (name != null ? !name.equals(auditInfo.name) : auditInfo.name != null) {
-            return false;
-        }
-        return true;
-    }
-
     public String getAfterValue() {
         return afterValue;
-    }
-
-    public String getBeforeValue() {
-        return beforeValue;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (beforeValue != null ? beforeValue.hashCode() : 0);
-        result = 31 * result + (afterValue != null ? afterValue.hashCode() : 0);
-        return result;
     }
 
     public void setAfterValue(String afterValue) {
         this.afterValue = afterValue;
     }
 
+    public String getBeforeValue() {
+        return beforeValue;
+    }
+
     public void setBeforeValue(String beforeValue) {
         this.beforeValue = beforeValue;
+    }
+
+    public BigInteger getId() {
+        return id;
     }
 
     public void setId(BigInteger id) {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        AuditInfo auditInfo = (AuditInfo) o;
+        return name.equals(auditInfo.name);
     }
 
     @Override

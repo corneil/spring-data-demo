@@ -3,11 +3,7 @@ package org.springframework.data.querydsl.demo.data;
 import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
@@ -15,40 +11,37 @@ import java.math.BigInteger;
 @QueryEntity
 @org.springframework.data.mongodb.core.mapping.Document
 public class DeviceInfo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
     @NotNull
     @Indexed(unique = true)
     @Column(unique = true)
     private String deviceId;
     private String deviceName;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DeviceInfo that = (DeviceInfo) o;
-        if (!deviceId.equals(that.deviceId)) {
-            return false;
-        }
-        return true;
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private BigInteger id;
 
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     public String getDeviceName() {
         return deviceName;
     }
 
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
     public BigInteger getId() {
         return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
     }
 
     @Override
@@ -56,16 +49,14 @@ public class DeviceInfo {
         return deviceId.hashCode();
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public void setDeviceName(String deviceName) {
-        this.deviceName = deviceName;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        DeviceInfo that = (DeviceInfo) o;
+        return deviceId.equals(that.deviceId);
     }
 
     @Override

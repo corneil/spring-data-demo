@@ -35,9 +35,10 @@ public class AuditEntryTest {
     @Autowired
     protected AuditService auditService;
 
-    private static Throwable findCause(Throwable x, Class<?> type) {
-        if (x.getClass().isAssignableFrom(type)) {
-            return x;
+    @SuppressWarnings("unchecked")
+    private static <T> T findCause(Throwable x, Class<T> type) {
+        if (type.isAssignableFrom(x.getClass())) {
+            return (T) x;
         }
         if (x.getCause() != null) {
             return findCause(x.getCause(), type);
@@ -52,15 +53,13 @@ public class AuditEntryTest {
             auditService.save(entry);
             fail("Expected constraint violations");
         } catch (Throwable x) {
-            ConstraintViolationException cv = (ConstraintViolationException) findCause(x, ConstraintViolationException.class);
+            ConstraintViolationException cv = findCause(x, ConstraintViolationException.class);
             assertNotNull("Expected ConstraintViolationException:" + x, cv);
-            if (cv != null) {
-                for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
-                    logger.info("Constraint:" + v);
-                    logger.info("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
-                }
-                assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
+            for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
+                logger.info("Constraint:" + v);
+                logger.info("Violation:" + v.getPropertyPath() + ":" + v.getMessage());
             }
+            assertFalse("Expected violations", cv.getConstraintViolations().isEmpty());
         }
         entry = new AuditEntry(new Date(), "User", "create");
         entry.getAuditInfo().add(new AuditInfo("name", "joe"));

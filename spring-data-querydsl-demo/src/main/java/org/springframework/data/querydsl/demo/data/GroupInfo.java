@@ -4,12 +4,7 @@ import com.mysema.query.annotations.QueryEntity;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 
@@ -44,24 +39,39 @@ public class GroupInfo {
         return this.groupName;
     }
 
-    public UserInfo getGroupOwner() {
-        return this.groupOwner;
-    }
-
-    public BigInteger getId() {
-        return this.id;
-    }
-
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public UserInfo getGroupOwner() {
+        return this.groupOwner;
     }
 
     public void setGroupOwner(UserInfo groupOwner) {
         this.groupOwner = groupOwner;
     }
 
+    public BigInteger getId() {
+        return this.id;
+    }
+
     public void setId(BigInteger id) {
         this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return groupName.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        GroupInfo groupInfo = (GroupInfo) o;
+        return groupName.equals(groupInfo.groupName);
     }
 
     @Override
