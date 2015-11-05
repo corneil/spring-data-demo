@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.repository.AuditEntryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +35,11 @@ public class AuditServiceImpl implements AuditService {
     public List<AuditEntry> find(String auditType, Date startDate, Date endDate) {
         logger.info("find:" + auditType + ":" + startDate + ":" + endDate);
         return repository.findByAuditTypeAndAuditTimeBetweenOrderByAuditTimeDesc(auditType, startDate, endDate);
+    }
+
+    @Override
+    public Page<AuditEntry> find(String auditType, Date startDate, Date endDate, Pageable pageable) {
+        return repository.findByAuditTypeAndAuditTimeBetween(auditType, startDate, endDate, pageable);
     }
 
     @Override

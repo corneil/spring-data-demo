@@ -11,6 +11,9 @@ import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.data.AuditInfo;
 import org.springframework.data.demo.service.AuditService;
 import org.springframework.data.demo.test.config.TestConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -46,7 +49,7 @@ public class AuditEntryTest {
         return null;
     }
 
-    private void createAuditEntries() {
+    private void createAuditEntries(int extra) {
         assertNotNull(auditService);
         AuditEntry entry = new AuditEntry(new Date(), "User", null);
         try {
@@ -66,9 +69,16 @@ public class AuditEntryTest {
         entry.getAuditInfo().add(new AuditInfo("name", "joe"));
         entry.getAuditInfo().add(new AuditInfo("surname", "soap"));
         auditService.save(entry);
-        entry = new AuditEntry(new Date(), "User", "update");
-        entry.getAuditInfo().add(new AuditInfo("name", "joe", "john"));
-        auditService.save(entry);
+        for (int i = 0; i < extra; i++) {
+            entry = new AuditEntry(new Date(), "User", "update");
+            entry.getAuditInfo().add(new AuditInfo("name", "joe", "john"));
+            auditService.save(entry);
+        }
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Before
@@ -83,7 +93,8 @@ public class AuditEntryTest {
     @Test
     public void testAuditEntry() {
         long startTime = System.currentTimeMillis();
-        createAuditEntries();
+        createAuditEntries(100);
+
         Date startDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60));
         Date endDate = new Date();
         List<AuditEntry> entries = auditService.find("User", startDate, endDate);
@@ -96,6 +107,42 @@ public class AuditEntryTest {
             prev = e.getAuditTime();
         }
         assertFalse(entries.isEmpty());
+        assertEquals(101, entries.size());
+        long endTime = System.currentTimeMillis();
+        double duration = ((double) (endTime - startTime)) / 1000.0;
+        logger.info(String.format("Test duration:%9.2f\n", duration));
+    }
+
+    @Test
+    public void testAuditEntryPaging() {
+        long startTime = System.currentTimeMillis();
+        createAuditEntries(100);
+        Date startDate = new Date(System.currentTimeMillis() - (1000 * 60 * 60));
+        Date endDate = new Date();
+        PageRequest pageRequest = new PageRequest(0, 20, Sort.Direction.DESC, "auditTime");
+        Page<AuditEntry> entries = auditService.find("User", startDate, endDate, pageRequest);
+        long totalEntries = entries.getTotalElements();
+        Date prev = null;
+        long visited = 0;
+        while (true) {
+            logger.info("Number={}, Entries={}, Size={}", entries.getNumber(), entries.getNumberOfElements(), entries.getSize());
+            for (AuditEntry e : entries.getContent()) {
+                visited += 1;
+                logger.info("Entry:" + e);
+                if (prev != null) {
+                    assertFalse("Expected:" + prev + " !before " + e.getAuditTime(), prev.before(e.getAuditTime()));
+                }
+                prev = e.getAuditTime();
+            }
+            if (entries.hasNext()) {
+                entries = auditService.find("User", startDate, endDate, entries.nextPageable());
+            } else {
+                break;
+            }
+        }
+        assertFalse(entries.getTotalElements() == 0);
+        assertEquals(totalEntries, visited);
+        assertEquals(101, visited);
         long endTime = System.currentTimeMillis();
         double duration = ((double) (endTime - startTime)) / 1000.0;
         logger.info(String.format("Test duration:%9.2f\n", duration));
