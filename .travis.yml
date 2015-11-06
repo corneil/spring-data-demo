@@ -6,7 +6,7 @@ jdk:
 install: true
 
 script:
-  - ./gradlew assemble check
+  - ./gradlew clean assemble check
 
 # Ensures that gradle does not print intermediate task status.
 env:
