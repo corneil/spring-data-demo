@@ -4,12 +4,10 @@ import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
-@Repository
 public interface AuditEntryRepository extends PagingAndSortingRepository<AuditEntry, String> {
     List<AuditEntry> findByAuditTimeBetweenOrderByAuditTimeDesc(Date startDate, Date endDate);
     Page<AuditEntry> findByAuditTypeAndAuditTimeBetween(String auditType, Date startDate, Date endDate, Pageable pageable);
