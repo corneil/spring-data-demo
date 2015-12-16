@@ -85,7 +85,7 @@ dependencies {
 
     testCompile 'com.github.fakemongo:fongo'
 
-    testCompile 'javax.el:el-api'
+    testCompile 'javax.el:javax.el-api'
 
     springAgent 'org.springframework:spring-instrument'
 
