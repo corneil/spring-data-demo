@@ -9,11 +9,6 @@ apply plugin: 'idea'
 
 description = 'Spring Data Demo'
 
-compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 sourceSets {
     main {
         // Fixes problem with JPA EntityManager factory requiring classes and persistence.xml in same path
@@ -128,15 +123,9 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
 
 check.dependsOn testMongo
 
-eclipse {
-    classpath {
-        downloadSources = true
-    }
-}
 idea {
     module {
         generatedSourceDirs += file(queryDslDir)
-        downloadSources = true
         iml {
             beforeMerged { module ->
                 module.excludeFolders.clear()

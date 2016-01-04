@@ -2,17 +2,25 @@ repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
+    maven {
+        url 'https://m2.neo4j.org/content/repositories/releases/'
+    }
 }
 apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom "io.spring.platform:platform-bom:2.0.0.RELEASE"
+        mavenBom "io.spring.platform:platform-bom:2.0.1.RELEASE"
     }
     dependencies {
         dependency 'com.mysema.querydsl:querydsl-mongodb:3.6.7'
         dependency 'com.github.fakemongo:fongo:2.0.2'
         dependency 'org.mongodb:mongo-java-driver:3.0.3'
+        dependency 'com.lordofthejars:nosqlunit-neo4j:0.8.1'
+        dependency 'org.neo4j:neo4j:2.3.1'
+        dependency 'org.neo4j.test:neo4j-harness:2.3.1'
+        // dependency 'org.neo4j:neo4j-cypher-dsl:1.7'
+
 
     }
 }

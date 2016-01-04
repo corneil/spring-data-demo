@@ -1,0 +1,62 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+description = 'Spring Data Neo4J Demo'
+
+configurations {
+    springAgent
+}
+
+dependencies {
+
+    compile 'org.springframework.data:spring-data-commons'
+    compile 'org.springframework.data:spring-data-neo4j'
+
+    compile 'org.springframework:spring-context'
+    compile 'org.springframework:spring-aop'
+    compile 'org.springframework:spring-aspects'
+    compile(group: 'org.springframework', name: 'spring-core') {
+        exclude(module: 'commons-logging')
+    }
+
+    compile(group: 'org.hibernate', name: 'hibernate-validator') {
+        exclude(module: 'jaxb-api')
+        exclude(module: 'jaxb-impl')
+    }
+
+    compile 'javax.validation:validation-api'
+
+    compile 'ch.qos.logback:logback-classic'
+
+
+    compile 'org.aspectj:aspectjrt'
+    compile 'org.aspectj:aspectjweaver'
+
+    compile 'org.apache.commons:commons-lang3'
+    compile 'commons-collections:commons-collections'
+
+    testCompile 'junit:junit'
+    testCompile 'org.springframework:spring-test'
+    testCompile 'org.hamcrest:hamcrest-all'
+    testCompile 'com.lordofthejars:nosqlunit-neo4j'
+
+
+    testCompile 'org.neo4j.test:neo4j-harness'
+
+    testCompile 'javax.el:javax.el-api'
+
+    springAgent 'org.springframework:spring-instrument'
+}
+
+
+test {
+    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
+    systemProperty 'neo4j.folder', "$project.buildDir/demo.db"
+    if (logger.isInfoEnabled()) {
+        testLogging.showStandardStreams = true
+    }
+}
+
+

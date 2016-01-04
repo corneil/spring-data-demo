@@ -1,4 +1,5 @@
 rootProject.name = 'spring-data-demo'
 
 include ':spring-data-plain-demo'
+include ':spring-data-neo4j-demo'
 include ':spring-data-querydsl-demo'

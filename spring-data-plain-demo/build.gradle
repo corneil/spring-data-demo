@@ -6,11 +6,6 @@ apply plugin: 'idea'
 
 description = 'Spring Data Plain Demo'
 
-compileJava {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 sourceSets {
     main {
         // Fixes problem with JPA EntityManager factory requiring classes and persistence.xml in same path
