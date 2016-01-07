@@ -7,6 +7,7 @@ The project provides a demonstration for using the following:
 
   * [Spring Data JPA](http://projects.spring.io/spring-data-jpa)
   * [Spring Data MongoDB](http://projects.spring.io/spring-data-mongodb)
+  * [Spring Data Neo4J](http://projects.spring.io/spring-data-neo4j)
   * [QueryDSL](http://www.querydsl.com)
   * [Fongo](https://github.com/fakemongo)
   

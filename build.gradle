@@ -9,12 +9,20 @@ buildscript {
     }
 }
 
+plugins {
+    id 'org.asciidoctor.convert' version '1.5.2'
+    id 'com.github.jruby-gradle.base' version '0.1.17'
+}
+
 repositories {
     mavenLocal()
     jcenter()
     mavenCentral()
     maven {
         url 'http://repo.spring.io/repo'
+    }
+    maven {
+        url "http://download.java.net/maven/2/"
     }
 }
 
@@ -49,3 +57,42 @@ subprojects {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.9'
 }
+
+
+apply plugin: 'org.asciidoctor.convert'
+
+dependencies {
+    gems 'rubygems:asciidoctor-diagram:1.2.0'
+}
+
+def graphvizDotLoc() {
+    def result = System.getProperty('os.name').toLowerCase().contains('win') ? 'dot.exe' : 'dot'
+    if (rootProject.hasProperty('graphvizdot')) {
+        result = rootProject.getProperty('graphvizdot')
+    } else {
+        def graphVizDotEnv = System.getenv('GRAPHVIZ_DOT')
+        if (graphVizDotEnv) {
+            result = graphVizDotEnv
+        }
+    }
+    return result
+}
+
+asciidoctor {
+    dependsOn jrubyPrepareGems
+    requires = ['asciidoctor-diagram', 'asciidoctor-diagram/plantuml']
+    gemPath = jrubyPrepareGems.outputDir
+
+    attributes 'build-gradle': file('build.gradle'),
+            'source-highlighter': 'coderay',
+            'imagesdir': 'images',
+            'toc': 'left',
+            'icons': 'font',
+            'setanchors': 'true',
+            'idprefix': '',
+            'idseparator': '-',
+            'docinfo1': 'true',
+            'graphvizdot': graphvizDotLoc()
+}
+
+build.dependsOn asciidoctor
