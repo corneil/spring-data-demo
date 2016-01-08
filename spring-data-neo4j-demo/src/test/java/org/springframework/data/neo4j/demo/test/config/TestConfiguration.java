@@ -21,6 +21,11 @@ public class TestConfiguration {
         @Bean
         GraphDatabaseService graphDatabaseService() throws IOException {
             return new TestGraphDatabaseFactory().newImpermanentDatabase();
+            /*
+            File store = new File(System.getProperty("java.io.tmpdir"), "neo4j.db");
+            System.out.println("Store:" + store.getAbsolutePath());
+            return new TestGraphDatabaseFactory().newEmbeddedDatabase(store);
+            */
         }
     }
 

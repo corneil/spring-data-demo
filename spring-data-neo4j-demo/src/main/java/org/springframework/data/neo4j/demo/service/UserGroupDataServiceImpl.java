@@ -78,13 +78,11 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public List<UserInfo> listActiveUsersInGroup(String groupName) {
         logger.info("listActiveUsersInGroup:" + groupName);
-        List<UserInfo> userList = new ArrayList<UserInfo>();
-        GroupInfo group = groupRepository.findByGroupName(groupName);
-        List<GroupMember> members = memberRepository.findByMemberOfgroupAndEnabledTrue(group);
-        for (GroupMember member : members) {
-            userList.add(member.getMember());
+        List<UserInfo> result = new ArrayList<UserInfo>();
+        for (UserInfo info : memberRepository.findActiveMembersOfGroup(groupName)) {
+            result.add(info);
         }
-        return userList;
+        return result;
     }
 
     @Override
@@ -100,25 +98,22 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public List<UserInfo> listAllUsersInGroup(String groupName) {
         logger.info("listAllUsersInGroup:" + groupName);
-        GroupInfo group = groupRepository.findByGroupName(groupName);
-        List<GroupMember> members = memberRepository.findByMemberOfgroup(group);
-        List<UserInfo> users = new ArrayList<UserInfo>();
-        for (GroupMember member : members) {
-            users.add(member.getMember());
+        List<UserInfo> result = new ArrayList<UserInfo>();
+        for (UserInfo info : memberRepository.findAllMembersOfGroup(groupName)) {
+            result.add(info);
         }
-        return users;
+        return result;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<GroupInfo> listGroupsForUser(String userId) {
         logger.info("listGroupsForUser:" + userId);
-        List<GroupInfo> groups = new ArrayList<GroupInfo>();
-        Iterable<GroupMember> members = memberRepository.findByMemberUserIdAndEnabledTrue(userId);
-        for (GroupMember member : members) {
-            groups.add(member.getMemberOfgroup());
+        List<GroupInfo> result = new ArrayList<GroupInfo>();
+        for (GroupInfo info : memberRepository.findGroupsForUser(userId)) {
+            result.add(info);
         }
-        return groups;
+        return result;
     }
 
     @Override

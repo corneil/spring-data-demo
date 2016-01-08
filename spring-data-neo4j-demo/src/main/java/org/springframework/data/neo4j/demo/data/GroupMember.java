@@ -1,13 +1,14 @@
 package org.springframework.data.neo4j.demo.data;
 
+import org.springframework.data.neo4j.annotation.EndNode;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
-import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.annotation.RelationshipEntity;
+import org.springframework.data.neo4j.annotation.StartNode;
 
 import javax.validation.constraints.NotNull;
 
-@NodeEntity
+@RelationshipEntity(type = "GROUPMEMBER")
 public class GroupMember {
     @NotNull
     private Boolean enabled;
@@ -15,11 +16,11 @@ public class GroupMember {
     private Long id;
     @NotNull
     @Fetch
-    @RelatedTo(type = "MEMBER")
+    @StartNode
     private UserInfo member;
     @NotNull
     @Fetch
-    @RelatedTo(type = "GROUP")
+    @EndNode
     private GroupInfo memberOfgroup;
 
     public GroupMember() {
