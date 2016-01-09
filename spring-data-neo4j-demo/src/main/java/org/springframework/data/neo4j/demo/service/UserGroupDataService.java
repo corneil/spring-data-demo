@@ -16,6 +16,7 @@ public interface UserGroupDataService {
     public GroupInfo findGroup(String name);
     public UserInfo findUser(String userId);
     public List<UserInfo> listActiveUsersInGroup(String groupName);
+    public List<UserInfo> listActiveUsersInGroupFinder(String groupName);
     public List<UserInfo> listAllUsers();
     public List<UserInfo> listAllUsersInGroup(String groupName);
     public List<GroupInfo> listGroupsForUser(String userId);

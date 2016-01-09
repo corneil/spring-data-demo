@@ -86,6 +86,16 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     }
 
     @Override
+    public List<UserInfo> listActiveUsersInGroupFinder(String groupName) {
+        logger.info("listActiveUsersInGroup:" + groupName);
+        List<UserInfo> result = new ArrayList<UserInfo>();
+        for (GroupMember info : memberRepository.findByEnabledTrueAndMemberOfgroupGroupName(groupName)) {
+            result.add(info.getMember());
+        }
+        return result;
+    }
+
+    @Override
     public List<UserInfo> listAllUsers() {
         List<UserInfo> result = new ArrayList<UserInfo>();
         for (UserInfo info : userRepository.findAll()) {
