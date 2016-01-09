@@ -53,7 +53,7 @@ dependencies {
 
 test {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'neo4j.folder', "$project.buildDir/demo.db"
+    systemProperty 'test.neo4j.finders', System.getProperty('test.neo4j.finders', 'false')
     if (logger.isInfoEnabled()) {
         testLogging.showStandardStreams = true
     }
