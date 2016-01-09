@@ -153,7 +153,7 @@ public class UserGroupDataServiceIntegrationTest {
             dataService.saveGroupMember(new GroupMember(groupOne, joe, true));
             dataService.saveGroupMember(new GroupMember(groupTwo, corneil, true));
             // Assertions
-            List<UserInfo> usersG1 = dataService.listActiveUsersInGroup("groupOne");
+            List<UserInfo> usersG1 = dataService.listActiveUsersInGroupFinder("groupOne");
             logger.info("Group1:" + usersG1);
             assertEquals(2, usersG1.size());
             // Test descending
