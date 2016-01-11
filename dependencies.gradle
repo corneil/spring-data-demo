@@ -3,9 +3,16 @@ repositories {
     jcenter()
     mavenCentral()
     maven {
+        url 'http://repo.spring.io/repo'
+    }
+    maven {
+        url "http://download.java.net/maven/2/"
+    }
+    maven {
         url 'https://m2.neo4j.org/content/repositories/releases/'
     }
 }
+
 apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
@@ -17,10 +24,7 @@ dependencyManagement {
         dependency 'com.github.fakemongo:fongo:2.0.2'
         dependency 'org.mongodb:mongo-java-driver:3.0.3'
         dependency 'com.lordofthejars:nosqlunit-neo4j:0.8.1'
-        dependency 'org.neo4j:neo4j:2.3.1'
-        dependency 'org.neo4j.test:neo4j-harness:2.3.1'
-        // dependency 'org.neo4j:neo4j-cypher-dsl:1.7'
-
+        dependency "org.neo4j.test:neo4j-harness:${ext['neo4j.version']}"
 
     }
 }
