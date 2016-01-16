@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
  */
 @Profile("couchbase")
 @Configuration
-@EnableCouchbaseRepositories(basePackages = {"org.springframework.data.demo.repository"})
+@EnableCouchbaseRepositories(basePackages = {"org/springframework/data/demo/repository"})
 @PropertySource("classpath:META-INF/spring/database.properties")
 public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
     private final static Logger logger = LoggerFactory.getLogger(CouchbaseConfig.class);
