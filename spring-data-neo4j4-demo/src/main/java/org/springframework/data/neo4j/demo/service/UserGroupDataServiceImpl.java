@@ -71,7 +71,11 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
     @Transactional(readOnly = true)
     public UserInfo findUser(String userId) {
         logger.info("findUser:" + userId);
-        return userRepository.findByUserId(userId);
+        if (Boolean.getBoolean("test.neo4j.bugs")) {
+            return userRepository.findByUserId(userId);
+        } else {
+            return userRepository.findUser(userId);
+        }
     }
 
     @Override
@@ -121,6 +125,15 @@ public class UserGroupDataServiceImpl implements UserGroupDataService {
         logger.info("listGroupsForUser:" + userId);
         List<GroupInfo> result = new ArrayList<GroupInfo>();
         for (GroupInfo info : memberRepository.findGroupsForUser(userId)) {
+            result.add(info);
+        }
+        return result;
+    }
+
+    @Override
+    public List<GroupInfo> listAllGroups() {
+        List<GroupInfo> result = new ArrayList<GroupInfo>();
+        for (GroupInfo info : groupRepository.findAll()) {
             result.add(info);
         }
         return result;
