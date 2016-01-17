@@ -18,8 +18,8 @@ public class TestConfiguration {
     static class TestNeo4jDatabase extends GraphDatabaseConfiguration {
         @Override
         public Neo4jServer neo4jServer() {
-            return super.neo4jServer();
-            // return new InProcessServer();
+            // return super.neo4jServer();
+            return new InProcessServer();
         }
     }
 
