@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @NodeEntity
 public class DeviceInfo {
     @NotNull
-    @Index
+    @Index(unique = true)
     private String deviceId;
     @Index
     private String deviceName;

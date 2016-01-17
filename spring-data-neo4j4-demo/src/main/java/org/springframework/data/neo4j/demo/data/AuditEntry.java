@@ -12,6 +12,7 @@ import java.util.Set;
 
 @NodeEntity
 public class AuditEntry {
+    
     private Set<AuditInfo> auditInfo;
     @NotNull
     @Index

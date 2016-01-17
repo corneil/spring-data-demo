@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NodeEntity
 public class GroupInfo {
     @NotNull
-    @Index
+    @Index(unique = true)
     private String groupName;
     @NotNull
     @Relationship(type = "OWNER")

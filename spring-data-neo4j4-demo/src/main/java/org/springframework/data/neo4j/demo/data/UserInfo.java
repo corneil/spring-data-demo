@@ -21,7 +21,7 @@ public class UserInfo implements Comparable<UserInfo> {
     @GraphId
     private Long id;
     @NotNull
-    @Index
+    @Index(unique = true)
     private String userId;
 
     public UserInfo() {
