@@ -11,6 +11,7 @@ import org.springframework.data.querydsl.demo.data.AuditEntry;
 import org.springframework.data.querydsl.demo.data.AuditInfo;
 import org.springframework.data.querydsl.demo.service.AuditService;
 import org.springframework.data.querydsl.demo.test.config.TestConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,8 +29,6 @@ import static org.junit.Assert.*;
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfiguration.class})
-// @ActiveProfiles(profiles = "jpa-hibernate")
-// @ActiveProfiles(profiles = "mongo")
 public class AuditEntryTest {
     private static Logger logger = LoggerFactory.getLogger("tests");
     @Autowired

@@ -50,7 +50,6 @@ dependencies {
     testCompile (group:'org.springframework.data', name:'spring-data-neo4j', classifier:'tests', version:'4.0.0.RELEASE', ext:'jar')
     testCompile 'org.neo4j.test:neo4j-harness:' + rootProject.ext['neo4j.version']
     testCompile (group:'org.neo4j', name:'neo4j-ogm', classifier:'tests', version:'1.1.2')
-    // testCompile 'org.neo4j:neo4j-ogm-test:1.0.0.M1'
 
     testCompile 'javax.el:javax.el-api'
 

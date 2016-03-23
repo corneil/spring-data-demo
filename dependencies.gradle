@@ -1,13 +1,5 @@
 repositories {
     mavenLocal()
-    /*
-    maven {
-        url 'http://m2.neo4j.org/content/repositories/releases'
-    }
-    maven {
-        url 'https://m2.neo4j.org/content/repositories/snapshots/'
-    }
-    */
     maven {
         url 'http://repo.spring.io/libs-snapshot'
     }

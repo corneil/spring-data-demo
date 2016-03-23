@@ -86,17 +86,11 @@ dependencies {
 
 }
 
-def queryDslDir = new File(buildDir, 'generated-sources/java')
 querydsl {
-    querydslSourcesDir = queryDslDir
     library = 'com.mysema.querydsl:querydsl-apt'
     querydslDefault = true
 }
-task deleteSources(type: Delete) {
-    delete queryDslDir
-}
 
-clean.dependsOn deleteSources
 task cleanTestJpa(type: Delete) {
     delete 'test-sd.h2.db'
     delete 'test-sd.trace.db'
@@ -123,16 +117,3 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
 
 check.dependsOn testMongo
 
-idea {
-    module {
-        generatedSourceDirs += file(queryDslDir)
-        iml {
-            beforeMerged { module ->
-                module.excludeFolders.clear()
-            }
-            whenMerged { module ->
-                module.excludeFolders.clear()
-            }
-        }
-    }
-}

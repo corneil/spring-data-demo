@@ -31,8 +31,6 @@ import static org.junit.Assert.*;
 @Configurable
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfiguration.class})
-// @ActiveProfiles(profiles = "jpa-hibernate")
-// @ActiveProfiles(profiles = "mongo")
 public class AuditEntryTest {
     private static Logger logger = LoggerFactory.getLogger("tests");
     @Autowired
@@ -56,7 +54,6 @@ public class AuditEntryTest {
             auditService.save(entry);
             fail("Expected constraint violations");
         } catch (Throwable x) {
-            x.printStackTrace();
             ConstraintViolationException cv = findCause(x, ConstraintViolationException.class);
             assertNotNull("Expected ConstraintViolationException:" + x, cv);
             for (ConstraintViolation<?> v : cv.getConstraintViolations()) {
