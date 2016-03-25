@@ -18,7 +18,7 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom "io.spring.platform:platform-bom:2.0.1.RELEASE"
+        mavenBom "io.spring.platform:platform-bom:2.0.3.RELEASE"
     }
     dependencies {
         dependency 'com.mysema.querydsl:querydsl-mongodb:3.6.7'
