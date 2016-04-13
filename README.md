@@ -22,3 +22,5 @@ The project build has been converted to Gradle.
 Run tests by invoking `gradlew cleanTest check`
 
 The spring xml configuration files are not used anymore but they serve as an example of an equivalent to the JavaConfig.
+
+[<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif">/<img>](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=corneil%2eduplessis%40gmail%2ecom&lc=ZA&item_name=Corneil%20du%20Plessis&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
