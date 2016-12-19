@@ -1,5 +1,7 @@
 package org.springframework.data.demo.data;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -11,6 +13,8 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @org.springframework.data.mongodb.core.mapping.Document
+@Data
+@EqualsAndHashCode(of = {"member", "memberOfgroup"})
 public class GroupMember {
     @NotNull
     private Boolean enabled;
@@ -37,67 +41,5 @@ public class GroupMember {
         this.memberOfgroup = memberOfgroup;
         this.member = member;
         this.enabled = enabled;
-    }
-
-    public Boolean getEnabled() {
-        return this.enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public UserInfo getMember() {
-        return this.member;
-    }
-
-    public void setMember(UserInfo groupMember) {
-        this.member = groupMember;
-    }
-
-    public GroupInfo getMemberOfgroup() {
-        return this.memberOfgroup;
-    }
-
-    public void setMemberOfgroup(GroupInfo memberOfgroup) {
-        this.memberOfgroup = memberOfgroup;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = member.hashCode();
-        result = 31 * result + memberOfgroup.hashCode();
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        GroupMember that = (GroupMember) o;
-        if (!member.equals(that.member))
-            return false;
-        return memberOfgroup.equals(that.memberOfgroup);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("GroupMember{");
-        sb.append("enabled=").append(enabled);
-        sb.append(", id=").append(id);
-        sb.append(", member=").append(member);
-        sb.append(", memberOfgroup=").append(memberOfgroup);
-        sb.append('}');
-        return sb.toString();
     }
 }

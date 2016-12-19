@@ -16,11 +16,7 @@ import javax.annotation.PostConstruct;
 public class TestConfiguration {
     @Configuration
     static class TestNeo4jDatabase extends GraphDatabaseConfiguration {
-        @Override
-        public Neo4jServer neo4jServer() {
-            // return super.neo4jServer();
-            return new InProcessServer();
-        }
+
     }
 
     @Autowired

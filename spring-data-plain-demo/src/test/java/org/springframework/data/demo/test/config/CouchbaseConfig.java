@@ -1,6 +1,5 @@
 package org.springframework.data.demo.test.config;
 
-import com.couchbase.client.CouchbaseClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +32,7 @@ public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
     protected String port;
 
     @Override
-    protected List<String> bootstrapHosts() {
+    protected List<String> getBootstrapHosts() {
         logger.info("couchbase.host:" + host);
         StringTokenizer tokens = new StringTokenizer(host, ", ");
         List<String> hosts = new ArrayList<String>();
@@ -41,12 +40,6 @@ public class CouchbaseConfig extends AbstractCouchbaseConfiguration {
             hosts.add(tokens.nextToken());
         }
         return hosts;
-    }
-
-    @Override
-    public CouchbaseClient couchbaseClient() throws Exception {
-        CouchbaseClient client = super.couchbaseClient();
-        return client;
     }
 
     @Override

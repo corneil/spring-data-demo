@@ -1,6 +1,7 @@
 plugins {
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.3"
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.7"
 }
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'eclipse'
@@ -21,15 +22,15 @@ configurations {
 }
 
 dependencies {
-
+    compile 'org.projectlombok:lombok'
     compile 'org.springframework.data:spring-data-commons'
     compile 'org.springframework.data:spring-data-jpa'
     compile 'org.springframework.data:spring-data-mongodb'
     compile 'org.springframework.data:spring-data-couchbase'
     compile 'org.springframework.data:spring-data-elasticsearch'
 
-    compile 'com.mysema.querydsl:querydsl-mongodb'
-    compile 'com.mysema.querydsl:querydsl-jpa'
+    compile 'com.querydsl:querydsl-mongodb'
+    compile 'com.querydsl:querydsl-jpa'
 
     compile 'org.springframework:spring-context'
     compile 'org.springframework:spring-aop'
@@ -87,7 +88,7 @@ dependencies {
 }
 
 querydsl {
-    library = 'com.mysema.querydsl:querydsl-apt'
+    library = 'com.querydsl:querydsl-apt'
     querydslDefault = true
 }
 

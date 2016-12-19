@@ -1,5 +1,7 @@
 package org.springframework.data.demo.data;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -11,10 +13,10 @@ import java.util.List;
 
 @Entity
 @org.springframework.data.mongodb.core.mapping.Document
+@Data
+@EqualsAndHashCode(of = {"auditTime", "auditType", "eventType"})
 public class AuditEntry {
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AuditInfo> auditInfo;
     @Temporal(value = TemporalType.TIMESTAMP)
     @Indexed(unique = false)
@@ -40,57 +42,5 @@ public class AuditEntry {
         this.auditType = auditType;
         this.eventType = eventType;
         this.auditInfo = new ArrayList<AuditInfo>();
-    }
-
-    public List<AuditInfo> getAuditInfo() {
-        return auditInfo;
-    }
-
-    public void setAuditInfo(List<AuditInfo> auditInfo) {
-        this.auditInfo = auditInfo;
-    }
-
-    public Date getAuditTime() {
-        return auditTime;
-    }
-
-    public void setAuditTime(Date auditTime) {
-        this.auditTime = auditTime;
-    }
-
-    public String getAuditType() {
-        return auditType;
-    }
-
-    public void setAuditType(String auditType) {
-        this.auditType = auditType;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("AuditEntry{");
-        sb.append("id=").append(id);
-        sb.append(", auditTime=").append(auditTime);
-        sb.append(", auditType='").append(auditType).append('\'');
-        sb.append(", eventType='").append(eventType).append('\'');
-        sb.append(", auditInfo=").append(auditInfo);
-        sb.append('}');
-        return sb.toString();
     }
 }

@@ -1,5 +1,7 @@
 package org.springframework.data.demo.data;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +12,8 @@ import java.util.Date;
 
 @Entity
 @org.springframework.data.mongodb.core.mapping.Document
+@Data
+@EqualsAndHashCode(of="userId")
 public class UserInfo {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(style = "M-")
@@ -31,75 +35,7 @@ public class UserInfo {
         super();
     }
     public UserInfo(String userId, String fullName) {
-        super();
         this.userId = userId;
         this.fullName = fullName;
-    }
-
-    public Date getDateOfBirth() {
-        return this.dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getEmailAddress() {
-        return this.emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public String getFullName() {
-        return this.fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    @Override
-    public int hashCode() {
-        return userId.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserInfo userInfo = (UserInfo) o;
-        return userId.equals(userInfo.userId);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("UserInfo{");
-        sb.append("userId='").append(userId).append('\'');
-        sb.append(", dateOfBirth=").append(dateOfBirth);
-        sb.append(", emailAddress='").append(emailAddress).append('\'');
-        sb.append(", fullName='").append(fullName).append('\'');
-        sb.append(", id=").append(id);
-        sb.append('}');
-        return sb.toString();
     }
 }

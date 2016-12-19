@@ -4,15 +4,19 @@ buildscript {
         jcenter()
         mavenCentral()
     }
+
     dependencies {
-        classpath "io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE"
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.11'
+        classpath 'org.asciidoctor:asciidoctorj-diagram:1.5.0'
     }
 }
 
 plugins {
-    id 'org.asciidoctor.convert' version '1.5.2'
-    id 'com.github.jruby-gradle.base' version '0.1.17'
+    id "io.spring.dependency-management" version "1.0.0.RC1"
+    id 'org.asciidoctor.convert' version '1.5.3'
+    id 'com.github.jruby-gradle.base' version '1.2.1'
 }
+
 
 group = 'com.tsctech.springdata.demo'
 description = 'Spring Data Demo'
@@ -69,20 +73,18 @@ def graphvizDotLoc() {
 }
 
 asciidoctor {
-    dependsOn jrubyPrepareGems
-    requires = ['asciidoctor-diagram', 'asciidoctor-diagram/plantuml']
-    gemPath = jrubyPrepareGems.outputDir
-
+    dependsOn jrubyPrepare
+    requires = ['asciidoctor-diagram', 'asciidoctor-diagram/plantuml', 'asciidoctor-pdf']
+    gemPath = jrubyPrepare.outputDir
+    backends = ['html5', 'pdf']
     attributes 'build-gradle': file('build.gradle'),
             'source-highlighter': 'coderay',
-            'imagesdir': 'images',
             'toc': 'left',
             'icons': 'font',
             'setanchors': 'true',
             'idprefix': '',
             'idseparator': '-',
-            'docinfo1': 'true',
-            'graphvizdot': graphvizDotLoc()
+            'docinfo1': 'true'
 }
 
 build.dependsOn asciidoctor

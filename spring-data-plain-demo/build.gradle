@@ -19,6 +19,7 @@ configurations {
 
 dependencies {
 
+    compile 'org.projectlombok:lombok'
     compile 'org.springframework.data:spring-data-commons'
     compile 'org.springframework.data:spring-data-jpa'
     compile 'org.springframework.data:spring-data-mongodb'
