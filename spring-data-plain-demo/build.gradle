@@ -91,7 +91,7 @@ cleanTest.dependsOn cleanTestJpa
 test {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'spring.profiles.active', 'jpa-hibernate'
-    if (logger.isInfoEnabled()) {
+    if (logger.infoEnabled) {
         testLogging.showStandardStreams = true
     }
 }
@@ -99,7 +99,7 @@ test {
 task testMongo(type: Test, dependsOn: [classes, testClasses]) {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'spring.profiles.active', 'mongo'
-    if (logger.isInfoEnabled()) {
+    if (logger.infoEnabled) {
         testLogging.showStandardStreams = true
     }
 }
@@ -108,7 +108,7 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
 task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'spring.profiles.active', 'couchbase'
-    if (logger.isInfoEnabled()) {
+    if (logger.infoEnabled) {
         testLogging.showStandardStreams = true
     }
 }

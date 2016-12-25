@@ -19,7 +19,7 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom "io.spring.platform:platform-bom:Athens-SR1"
+        mavenBom 'io.spring.platform:platform-bom:Athens-SR1'
     }
     dependencies {
         dependency 'org.springframework.data:spring-data-neo4j:4.1.5.RELEASE'

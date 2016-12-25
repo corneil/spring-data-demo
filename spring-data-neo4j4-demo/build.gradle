@@ -52,7 +52,7 @@ dependencies {
 
     testCompile group:'org.springframework.data', name:'spring-data-neo4j', classifier:'tests', ext:'jar'
     testCompile 'org.neo4j.test:neo4j-harness'
-    testCompile group:'org.neo4j', name:'neo4j-ogm', version:'2.0.5'
+    testCompile 'org.neo4j:neo4j-ogm'
 
     testCompile 'javax.el:javax.el-api'
 
@@ -63,7 +63,7 @@ dependencies {
 test {
     jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
     systemProperty 'test.neo4j.bugs', System.getProperty('test.neo4j.bugs', 'false')
-    if (logger.isInfoEnabled()) {
+    if (logger.infoEnabled) {
         testLogging.showStandardStreams = true
     }
 }
