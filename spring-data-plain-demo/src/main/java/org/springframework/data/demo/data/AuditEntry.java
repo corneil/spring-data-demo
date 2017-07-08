@@ -29,6 +29,7 @@ public class AuditEntry {
     @Indexed(unique = false)
     private String eventType;
     @Id
+    @com.couchbase.client.java.repository.annotation.Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;

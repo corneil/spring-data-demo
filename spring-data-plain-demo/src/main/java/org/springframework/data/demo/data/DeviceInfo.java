@@ -20,6 +20,7 @@ public class DeviceInfo {
     private String deviceId;
     private String deviceName;
     @Id
+    @com.couchbase.client.java.repository.annotation.Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;

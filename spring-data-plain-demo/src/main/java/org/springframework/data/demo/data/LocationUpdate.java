@@ -20,6 +20,7 @@ public class LocationUpdate {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private DeviceInfo device;
     @Id
+    @com.couchbase.client.java.repository.annotation.Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;

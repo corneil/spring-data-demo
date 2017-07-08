@@ -105,15 +105,6 @@ task testMongo(type: Test, dependsOn: [classes, testClasses]) {
 }
 
 
-task testCouchbase(type: Test, dependsOn: [classes, testClasses]) {
-    jvmArgs = ['-javaagent:' + configurations.springAgent.singleFile.toString()]
-    systemProperty 'spring.profiles.active', 'couchbase'
-    if (logger.infoEnabled) {
-        testLogging.showStandardStreams = true
-    }
-}
 
 check.dependsOn testMongo
-
-// check.dependsOn testCouchbase
 

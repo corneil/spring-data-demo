@@ -19,7 +19,7 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencyManagement {
     imports {
-        mavenBom 'io.spring.platform:platform-bom:Athens-SR1'
+        mavenBom 'io.spring.platform:platform-bom:Athens-SR6'
     }
     dependencies {
         dependency 'org.springframework.data:spring-data-neo4j:4.1.5.RELEASE'
@@ -33,6 +33,9 @@ dependencyManagement {
         dependency 'org.neo4j.test:neo4j-harness:2.3.8'
         dependency 'com.github.fakemongo:fongo:2.0.6'
         dependency 'com.lordofthejars:nosqlunit-neo4j:0.10.0'
+        // dependency 'org.springframework.data:spring-data-couchbase:2.2.4.RELEASE'
+        dependency 'com.couchbase.client:java-client:2.2.8'
+
     }
 }
 

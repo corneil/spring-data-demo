@@ -17,6 +17,7 @@ public class AuditInfo {
     private String afterValue;
     private String beforeValue;
     @Id
+    @com.couchbase.client.java.repository.annotation.Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;

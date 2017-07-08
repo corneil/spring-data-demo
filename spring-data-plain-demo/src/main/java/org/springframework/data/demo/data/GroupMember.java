@@ -20,6 +20,7 @@ public class GroupMember {
     private Boolean enabled;
     // Using a string id for use in both MongoDB and JPA.
     @Id
+    @com.couchbase.client.java.repository.annotation.Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
