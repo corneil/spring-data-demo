@@ -80,6 +80,7 @@ public class LocationUpdateTest {
 			loc.setLocDetail("Sample-" + (i + 1));
 			loc.setLocTime(new Date());
 			locationAndDeviceService.saveLocation(loc);
+			assertNotNull(loc.getId(), "Expected id != null");
 		}
 		return device1;
 	}

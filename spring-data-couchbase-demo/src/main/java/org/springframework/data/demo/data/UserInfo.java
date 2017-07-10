@@ -7,31 +7,33 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Document
 @Data
-@EqualsAndHashCode(of = "userId")
+@EqualsAndHashCode(of = {"userId"})
 public class UserInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationStrategy.UNIQUE)
-	private String id;
+	String id;
 
 	@Field
-	private Date dateOfBirth;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	Date dateOfBirth;
 
 	@Field
-	private String emailAddress;
-
-	@NotNull
-	@Field
-	private String fullName;
+	String emailAddress;
 
 	@NotNull
 	@Field
-	private String userId;
+	String fullName;
+
+	@NotNull
+	@Field
+	String userId;
 
 	public UserInfo() {
 		super();

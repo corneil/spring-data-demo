@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
-import org.springframework.data.couchbase.core.mapping.id.IdAttribute;
 
 import javax.validation.constraints.NotNull;
 
@@ -17,19 +16,19 @@ import javax.validation.constraints.NotNull;
 public class GroupMember {
 	@Id
 	@GeneratedValue(strategy = GenerationStrategy.UNIQUE)
-	private String id;
+	String id;
 
 	@NotNull
 	@Field
-	private Boolean enabled;
+	Boolean enabled;
 
 	@NotNull
 	@Field
-	private UserInfo member;
+	UserInfo member;
 
 	@NotNull
 	@Field
-	private GroupInfo memberOfgroup;
+	GroupInfo memberOfgroup;
 
 	public GroupMember() {
 		super();

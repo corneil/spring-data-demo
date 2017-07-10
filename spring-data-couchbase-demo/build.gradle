@@ -12,6 +12,11 @@ configurations {
 
 dependencies {
 
+    compile 'joda-time:joda-time'
+    compile 'com.fasterxml.jackson.core:jackson-annotations'
+    compile 'com.fasterxml.jackson.core:jackson-databind'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     compile 'org.projectlombok:lombok'
     compile 'org.springframework.data:spring-data-commons'
     compile 'org.springframework.data:spring-data-couchbase'

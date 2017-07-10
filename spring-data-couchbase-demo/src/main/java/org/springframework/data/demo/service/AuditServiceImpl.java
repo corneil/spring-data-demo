@@ -1,12 +1,10 @@
 package org.springframework.data.demo.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.demo.data.AuditEntry;
 import org.springframework.data.demo.repository.AuditEntryRepository;
-import org.springframework.data.demo.repository.AuditInfoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,31 +16,26 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@Transactional
-@Validated
-public class AuditServiceImpl implements AuditService {
-	private static Logger logger = LoggerFactory.getLogger(AuditServiceImpl.class);
 
+@Validated
+@Slf4j
+public class AuditServiceImpl implements AuditService {
 	@Autowired
 	protected AuditEntryRepository repository;
-
-	@Autowired
-	protected AuditInfoRepository auditInfoRepository;
 
 	@Autowired
 	protected CouchbaseTemplate couchbaseTemplate;
 
 	@Override
-	@Transactional
+
 	public void deleteAllData() {
-		logger.info("deleteAllData");
+		log.debug("deleteAllData");
 		repository.deleteAll();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<AuditEntry> find(String auditType, Date startDate, Date endDate) {
-		logger.info("find:" + auditType + ":" + startDate + ":" + endDate);
+		log.debug("find:{}:{}:{}", auditType, startDate, endDate);
 		return repository.findByAuditTypeAndAuditTimeBetweenOrderByAuditTimeDesc(auditType, startDate, endDate);
 	}
 
@@ -53,12 +46,9 @@ public class AuditServiceImpl implements AuditService {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional
+
 	public void save(@Valid AuditEntry entry) {
-		logger.info("save:" + entry);
-		if (entry.getAuditInfo() != null) {
-			auditInfoRepository.save(entry.getAuditInfo());
-		}
+		log.debug("save:{}", entry);
 		repository.save(entry);
 	}
 }

@@ -8,9 +8,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration;
 import org.springframework.data.couchbase.core.CouchbaseTemplate;
 import org.springframework.data.couchbase.core.WriteResultChecking;
+import org.springframework.data.couchbase.core.convert.CustomConversions;
 import org.springframework.data.couchbase.core.query.Consistency;
 import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories;
 import org.springframework.data.couchbase.repository.support.IndexManager;
+import org.springframework.data.demo.converter.JodaConverters;
 
 import java.util.ArrayList;
 import java.util.List;

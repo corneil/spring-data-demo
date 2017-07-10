@@ -8,5 +8,5 @@ import org.springframework.data.demo.data.UserInfo;
 @N1qlPrimaryIndexed
 @ViewIndexed(designDoc = "userInfo")
 public interface UserInfoRepository extends CouchbaseRepository<UserInfo, String> {
-	UserInfo findByUserId(String userId);
+	UserInfo findOneByUserId(String userId);
 }

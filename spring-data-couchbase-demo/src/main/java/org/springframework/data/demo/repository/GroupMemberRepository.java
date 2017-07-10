@@ -12,7 +12,7 @@ import java.util.List;
 @N1qlPrimaryIndexed
 @ViewIndexed(designDoc = "groupMember")
 public interface GroupMemberRepository extends CouchbaseRepository<GroupMember, String> {
-	List<GroupMember> findByMemberOfgroup(GroupInfo group);
-	List<GroupMember> findByMemberOfgroupAndEnabledTrue(GroupInfo group);
-	List<GroupMember> findByMemberUserIdAndEnabledTrue(String userId);
+	List<GroupMember> findByMemberOfgroup_GroupName(String groupName);
+	List<GroupMember> findByMemberOfgroup_GroupNameAndEnabledTrue(String groupName);
+	List<GroupMember> findByMember_UserIdAndEnabledTrue(String userId);
 }

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class AuditEntry {
 
 	@Field
 	@NotNull
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private Date auditTime;
 
 	@NotNull

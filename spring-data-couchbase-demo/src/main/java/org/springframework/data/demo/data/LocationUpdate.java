@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.couchbase.core.mapping.Document;
 import org.springframework.data.couchbase.core.mapping.id.GeneratedValue;
 import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy;
-import org.springframework.data.couchbase.core.mapping.id.IdAttribute;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -18,22 +18,23 @@ import java.util.Date;
 public class LocationUpdate {
 	@Id
 	@GeneratedValue(strategy = GenerationStrategy.UNIQUE)
-	private String id;
+	String id;
 
 	@Field
 	@NotNull
-	private DeviceInfo device;
+	DeviceInfo device;
 
 	@Field
-	private double latX;
+	double latX;
 
 	@Field
-	private double latY;
+	double latY;
 
 	@Field
-	private String locDetail;
+	String locDetail;
 
 	@NotNull
 	@Field
-	private Date locTime;
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+	Date locTime;
 }
