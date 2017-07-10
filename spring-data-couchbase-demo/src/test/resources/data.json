@@ -1,9 +1,0 @@
-[
-  {
-    "_class": "org.springframework.data.demo.data.UserInfo",
-    "userId": "piet",
-    "dateOfBirth": "1911-11-11",
-    "emailAddress": "piet.pompies@gmail.com",
-    "fullName": "Piet Pompies"
-  }
-]

@@ -1,6 +1,2 @@
-rootProject.name = 'spring-data-demo'
+rootProject.name = 'spring-data-couchbase-demo'
 
-include ':spring-data-plain-demo'
-include ':spring-data-couchbase-demo'
-include ':spring-data-querydsl-demo'
-include ':spring-data-neo4j4-demo'

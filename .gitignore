@@ -1,11 +1,25 @@
-*.class
+.gradle
+/build/
+!gradle/wrapper/gradle-wrapper.jar
 
-# Package Files #
-target
-build
-*.db
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
-.*
-/bin
-/build.log
-/classes/
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
